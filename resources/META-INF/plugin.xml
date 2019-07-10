@@ -1,0 +1,74 @@
+<idea-plugin>
+  <id>org.zongf.plugins.idea</id>
+  <name>Code Generator</name>
+  <version>1.0</version>
+  <vendor email="3154007684@qq.com" url="">zongf</vendor>
+
+  <description><![CDATA[
+    <h3>代码生成工具</h3><br>
+     <ul>
+        <li>代码格式化:整个文件或选中行代码</li>
+        <li>自动生成 constructor, settter,getter,toString</li>
+        <li>修复自动导入类</li>
+      </ul>
+  ]]></description>
+
+  <change-notes><![CDATA[
+      <ul>
+        <li>新增constructor, settter,getter,toString 自动生成工具</li>
+        <li>新增代码格式化功能</li>
+        <li>新增修复自动导入类功能</li>
+      </ul>
+    ]]>
+  </change-notes>
+
+  <idea-version since-build="173.0"/>
+
+  <!-- 扩展点 -->
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+  </extensions>
+
+  <actions>
+
+    <!-- 定义标签组信息, 组标签为zongf, 描述为 -->
+    <group id="zongfMenu" text="zongfs" description="自定义插件">
+      <!-- 将自定义标签组添加到ManinMenu(顶部菜单栏), 位置last(最后) -->
+      <add-to-group group-id="MainMenu" anchor="last"  />
+
+    </group>
+
+    <!-- 自定义按钮: 优化自动导包 -->
+    <action id="org.zongf.plugins.idea.action.OptimizeImportAction"
+            class="org.zongf.plugins.idea.action.OptimizeImportAction"
+            text="Optimize auto imports">
+      <!-- 指定快捷键 -->
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 0"/>
+      <!-- 添加到自定义组中-->
+      <add-to-group group-id="zongfMenu"/>
+    </action>
+
+    <!-- 自定义按钮: 格式化代码 -->
+    <action id="org.zongf.plugins.idea.action.CodeFormatAction"
+            class="org.zongf.plugins.idea.action.CodeFormatAction"
+            text="Format code">
+      <!-- 指定快捷键 -->
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 9"/>
+      <!-- 添加到自定义组中-->
+      <add-to-group group-id="zongfMenu"/>
+    </action>
+
+    <!-- 自定义按钮: 生成基础方法:getter,setter,toString, constructor等方法 -->
+    <action id="org.zongf.plugins.idea.action.BasicCodeAction"
+            class="org.zongf.plugins.idea.action.BasicCodeAction"
+            text="Generate basic methods">
+      <!-- 指定快捷键 -->
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 8"/>
+      <!-- 添加到自定义组中-->
+      <add-to-group group-id="zongfMenu"/>
+    </action>
+
+
+  </actions>
+
+</idea-plugin>
