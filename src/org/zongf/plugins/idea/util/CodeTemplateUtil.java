@@ -15,7 +15,7 @@ import java.util.Map;
 public class CodeTemplateUtil {
 
     // ftl模板根目录
-    private static final String DIR_TEMPLATE = "/templates";
+    private static final String DIR_TEMPLATE = "/ftls";
 
     // freemarker 配置类
     private static final Configuration cfg;

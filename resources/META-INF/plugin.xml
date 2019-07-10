@@ -1,11 +1,11 @@
 <idea-plugin>
   <id>org.zongf.plugins.idea</id>
-  <name>Code Generator</name>
+  <name>zongf idea plugins</name>
   <version>1.0</version>
   <vendor email="3154007684@qq.com" url="">zongf</vendor>
 
   <description><![CDATA[
-    <h3>代码生成工具</h3><br>
+    <h3>zongf's idea plugins</h3><br>
      <ul>
         <li>代码格式化:整个文件或选中行代码</li>
         <li>自动生成 constructor, settter,getter,toString</li>
