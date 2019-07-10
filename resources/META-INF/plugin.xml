@@ -32,7 +32,7 @@
   <actions>
 
     <!-- 定义标签组信息, 组标签为zongf, 描述为 -->
-    <group id="zongfMenu" text="zongfs" description="自定义插件">
+    <group id="zongfMenu" text="zongf" description="自定义插件">
       <!-- 将自定义标签组添加到ManinMenu(顶部菜单栏), 位置last(最后) -->
       <add-to-group group-id="MainMenu" anchor="last"  />
 
