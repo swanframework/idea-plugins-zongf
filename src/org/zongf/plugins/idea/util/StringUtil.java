@@ -7,68 +7,68 @@ package org.zongf.plugins.idea.util;
  */
 public class StringUtil {
 
-    /** 截取第一个seperactor字符串之前的字符串, 如果seperactor不存在, 则返回空字符串
+    /** 截取第一个separator字符串之前的字符串, 如果separator不存在, 则返回空字符串
      * @param str 原字符串
-     * @param seperactor 分隔字符串
-     * @return 空字符串或seperactor之前的字符串
+     * @param separator 分隔字符串
+     * @return 空字符串或separator之前的字符串
      * @since 1.0
      * @author zongf
      * @created 2019-07-11 
      */
-    public static String subStringBeforeFirst(String str, String seperactor) {
+    public static String subStringBeforeFirst(String str, String separator) {
         // 如果字符串为空, 则原字符串返回
         if(str == null || "".equals(str)) return str;
 
-        int idx = str.indexOf(seperactor);
+        int idx = str.indexOf(separator);
         return idx == -1 ? "" : str.substring(0, idx);
     }
 
-    /** 截取最后一个seperactor字符串之前的字符串, 如果seperactor不存在, 则返回空字符串
+    /** 截取最后一个separator字符串之前的字符串, 如果separator不存在, 则返回空字符串
      * @param str 原字符串
-     * @param seperactor 分隔字符串
-     * @return 空字符串或seperactor之前的字符串
+     * @param separator 分隔字符串
+     * @return 空字符串或separator之前的字符串
      * @since 1.0
      * @author zongf
      * @created 2019-07-11
      */
-    public static String subStringBeforeLast(String str, String seperactor) {
+    public static String subStringBeforeLast(String str, String separator) {
         // 如果字符串为空, 则原字符串返回
         if(str == null || "".equals(str)) return str;
 
-        int idx = str.lastIndexOf(seperactor);
+        int idx = str.lastIndexOf(separator);
         return idx == -1 ? "" : str.substring(0, idx);
     }
 
-    /** 截取第一个seperactor字符串之后的字符串, 如果seperactor不存在, 则返回空字符串
+    /** 截取第一个separator字符串之后的字符串, 如果separator不存在, 则返回空字符串
      * @param str 原字符串
-     * @param seperactor 分隔字符串
-     * @return 空字符串或seperactor之前的字符串
+     * @param separator 分隔字符串
+     * @return 空字符串或separator之前的字符串
      * @since 1.0
      * @author zongf
      * @created 2019-07-11
      */
-    public static String subStringAfterFirst(String str, String seperactor) {
+    public static String subStringAfterFirst(String str, String separator) {
 
         // 如果字符串为空, 则原字符串返回
         if(str == null || "".equals(str)) return str;
 
-        int idx = str.indexOf(seperactor);
+        int idx = str.indexOf(separator);
         return idx == -1 ? "" : str.substring(idx + 1);
     }
 
-    /** 截取最后一个seperactor字符串之后的字符串, 如果seperactor不存在, 则返回空字符串
+    /** 截取最后一个separator字符串之后的字符串, 如果separator不存在, 则返回空字符串
      * @param str 原字符串
-     * @param seperactor 分隔字符串
-     * @return 空字符串或seperactor之前的字符串
+     * @param separator 分隔字符串
+     * @return 空字符串或separator之前的字符串
      * @since 1.0
      * @author zongf
      * @created 2019-07-11
      */
-    public static String subStringAfterLast(String str, String seperactor) {
+    public static String subStringAfterLast(String str, String separator) {
         // 如果字符串为空, 则原字符串返回
         if(str == null || "".equals(str)) return str;
 
-        int idx = str.lastIndexOf(seperactor);
+        int idx = str.lastIndexOf(separator);
         return idx == -1 ? "" : str.substring(idx + 1);
     }
 
@@ -76,7 +76,7 @@ public class StringUtil {
      * @param str 原字符串
      * @param open 开始字符串
      * @param close 结束字符串
-     * @return 空字符串或seperactor之前的字符串
+     * @return 空字符串或separator之前的字符串
      * @since 1.0
      * @author zongf
      * @created 2019-07-11
