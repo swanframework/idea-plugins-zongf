@@ -1,10 +1,10 @@
-package org.zongf.plugins.idea.action;
+package org.zongf.plugins.idea.action.deprecated;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.psi.PsiFile;
-import org.zongf.plugins.idea.util.StringUtil;
+import org.zongf.plugins.idea.util.common.StringUtil;
 import org.zongf.plugins.idea.util.idea.ClipBoardUtil;
 
 /** 复制引用至剪切板, 使用简单类名
@@ -12,6 +12,7 @@ import org.zongf.plugins.idea.util.idea.ClipBoardUtil;
  * @created: 2019-07-11
  * @since 1.0
  */
+@Deprecated
 public class CopySimpleReferenceAction extends CopyReferenceAction {
 
 

@@ -1,4 +1,4 @@
-package org.zongf.plugins.idea.action;
+package org.zongf.plugins.idea.action.deprecated;
 
 import com.intellij.ide.actions.QualifiedNameProvider;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -15,6 +15,7 @@ import org.zongf.plugins.idea.util.idea.ClipBoardUtil;
  * @created: 2019-07-11
  * @since 1.0
  */
+@Deprecated
 public class CopyReferenceAction extends AnAction {
 
     @Override
