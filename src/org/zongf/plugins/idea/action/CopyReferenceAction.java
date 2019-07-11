@@ -4,6 +4,7 @@ import com.intellij.ide.actions.QualifiedNameProvider;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.extensions.Extensions;
 import com.intellij.psi.*;
@@ -22,18 +23,20 @@ public class CopyReferenceAction extends AnAction {
         // 获取PsiFile 和 selection
         PsiFile psiFile = anActionEvent.getData(PlatformDataKeys.PSI_FILE);
 
+        Editor editor = anActionEvent.getData(PlatformDataKeys.EDITOR);
+
         // 如果未打开文件, 则返回
-        if (anActionEvent.getData(PlatformDataKeys.EDITOR) == null) {
+        if (editor == null) {
             return;
         }
 
-        SelectionModel selection = anActionEvent.getData(PlatformDataKeys.EDITOR).getSelectionModel();
+        SelectionModel selection = editor.getSelectionModel();
 
         // 获取选中元素
         PsiElement selectElement = psiFile.findElementAt(selection.getSelectionStart());
 
-        // 获取行号
-        int lineNum = selection.getSelectionStartPosition().getLine() + 1;
+        // 获取真实行号, 纵使编辑器折叠也没事
+        int lineNum = editor.getDocument().getLineNumber(selection.getSelectionStart()) + 1;
 
         // 获取唯一名称
         String qualifiedName = null;
