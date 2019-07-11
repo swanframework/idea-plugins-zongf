@@ -64,9 +64,9 @@
     </action>
 
     <!-- 自定义按钮: 复制引用至剪切板, 使用全限定类名 -->
-    <action id="org.zongf.plugins.idea.action.CopyReferenceAction"
-            class="org.zongf.plugins.idea.action.CopyReferenceAction"
-            text="Copy Detail Reference">
+    <action id="org.zongf.plugins.idea.action.JavaCopyReferenceAction"
+            class="org.zongf.plugins.idea.action.JavaCopyReferenceAction"
+            text="Copy Java Reference">
       <!-- 指定快捷键 -->
       <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 7"/>
       <!-- 添加到自定义组中-->
@@ -74,9 +74,9 @@
     </action>
 
     <!-- 自定义按钮: 复制引用至剪切板, 使用简单类名 -->
-    <action id="org.zongf.plugins.idea.action.CopySimpleReferenceAction"
-            class="org.zongf.plugins.idea.action.CopySimpleReferenceAction"
-            text="Copy Simple Reference">
+    <action id="org.zongf.plugins.idea.action.JavaCopyReferenceSimpleAction"
+            class="org.zongf.plugins.idea.action.JavaCopyReferenceSimpleAction"
+            text="Copy Java Reference Simple">
       <!-- 指定快捷键 -->
       <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 6"/>
       <!-- 添加到自定义组中-->
