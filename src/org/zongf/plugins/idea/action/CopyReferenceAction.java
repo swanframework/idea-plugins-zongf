@@ -47,6 +47,13 @@ public class CopyReferenceAction extends AnAction {
         if (qualifiedName == null) {
             String relativePath = psiFile.getVirtualFile().getCanonicalPath().replace(psiFile.getProject().getBasePath() + "/","");
             qualifiedName = relativePath + "/" + psiFile.getName();
+        }else {
+            // 如果为java方法时, 如果不包含括号, 说明方法唯一. 默认方法唯一时, 方法签名不包含形参列表, 自己拼接形参列表
+            if (psiFile instanceof PsiJavaFile && selectElement.getParent() instanceof PsiMethod) {
+                if(!qualifiedName.contains("(")){
+                    qualifiedName = qualifiedName + getUniqueMethodParams((PsiMethod) selectElement.getParent());
+                }
+            }
         }
 
         // 拼接字符串
@@ -54,5 +61,23 @@ public class CopyReferenceAction extends AnAction {
 
         // 粘贴到剪切板
         ClipBoardUtil.setStringContent(info);
+    }
+
+    /** 获取唯一方法参数
+     * @param psiMethod java 方法
+     * @return String 参数列表
+     * @since 1.0
+     * @author zongf
+     * @created 2019-07-11
+     */
+    private static String getUniqueMethodParams(PsiMethod psiMethod) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("(");
+        for (PsiParameter psiParameter : psiMethod.getParameterList().getParameters()) {
+            sb.append(psiParameter.getType().getCanonicalText()).append(", ");
+        }
+        sb.delete(sb.length() - 2, sb.length());
+        sb.append(")");
+        return sb.toString();
     }
 }
