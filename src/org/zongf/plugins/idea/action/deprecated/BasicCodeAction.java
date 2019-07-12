@@ -1,4 +1,4 @@
-package org.zongf.plugins.idea.action;
+package org.zongf.plugins.idea.action.deprecated;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
  * @author zongf
  * @created 2019-07-09
  */
+@Deprecated
 public class BasicCodeAction extends AnAction {
 
     @Override
