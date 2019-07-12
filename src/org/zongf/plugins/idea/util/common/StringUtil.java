@@ -90,4 +90,19 @@ public class StringUtil {
 
         return beginIdx != -1 && endIdx != -1 ? str.substring(beginIdx + 1, endIdx) : "";
     }
+
+    /** 字符串首字母大写
+     * @param str 原字符串
+     * @return 首字母大写的字符串
+     * @since 1.0
+     * @author zongf
+     * @created 2019-07-12
+     */
+    public static String firstToUpper(String str) {
+        // 如果字符串为空, 则返回原字符串
+        if(str == null || "".equals(str)) return str;
+
+        String first = str.substring(0, 1);
+        return first.toUpperCase() + str.substring(1);
+    }
 }
