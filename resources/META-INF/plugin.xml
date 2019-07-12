@@ -58,7 +58,7 @@
             class="org.zongf.plugins.idea.action.JavaCopyReferenceAction"
             text="Copy Java Reference">
       <!-- 指定快捷键 -->
-      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 7"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 8"/>
       <!-- 添加到自定义组中-->
       <add-to-group group-id="zongfMenu"/>
     </action>
@@ -68,7 +68,7 @@
             class="org.zongf.plugins.idea.action.JavaCopyReferenceSimpleAction"
             text="Copy Java Reference Simple">
       <!-- 指定快捷键 -->
-      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 6"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 7"/>
       <!-- 添加到自定义组中-->
       <add-to-group group-id="zongfMenu"/>
     </action>
