@@ -3,6 +3,7 @@ package org.zongf.plugins.idea.util.idea;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
+import org.zongf.plugins.idea.util.common.ClassUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -90,8 +91,7 @@ public class PsiClassUtil {
         PsiField[] allFields = psiClass.getAllFields();
         for (PsiField field : allFields) {
             String canonicalText = field.getType().getCanonicalText();
-            int idx = canonicalText.lastIndexOf(".");
-            String fieldType = canonicalText.substring(idx + 1);
+            String fieldType = ClassUtil.simpleClassName(canonicalText);
             fieldMap.put(field.getName(), fieldType);
         }
 
