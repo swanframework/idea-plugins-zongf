@@ -1,4 +1,4 @@
-package org.zongf.plugins.idea.util;
+package org.zongf.plugins.idea.util.common;
 
 /** 新增字符串工具类
  * @author: zongf
