@@ -6,6 +6,7 @@ import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
 import org.zongf.plugins.idea.util.common.StringUtil;
+import org.zongf.plugins.idea.util.idea.PsiClassUtil;
 import org.zongf.plugins.idea.vo.JavaReferenceVO;
 
 import java.util.ArrayList;
@@ -82,7 +83,7 @@ public class JavaReferenceUtil {
         javaReferenceVO.setLineNo(lineNum);
 
         // 获取类名
-        String className = getClassName(psiJavaFile, editor);
+        String className = PsiClassUtil.getClassName(psiJavaFile, editor);
         javaReferenceVO.setClassName(className);
 
         // 判断选中区域是否是方法
@@ -91,7 +92,7 @@ public class JavaReferenceUtil {
             PsiMethod psiMethod = (PsiMethod) selectElement.getParent();
 
             // 如果为java方法时, 如果不包含括号, 说明方法唯一. 默认方法唯一时, 方法签名不包含形参列表, 自己拼接形参列表
-            List<String> methodParams = getMethodParams(psiMethod);
+            List<String> methodParams = PsiClassUtil.getMethodParams(psiMethod);
 
             // 设置参数列表
             javaReferenceVO.setParamList(methodParams);
@@ -105,68 +106,6 @@ public class JavaReferenceUtil {
         }
 
         return javaReferenceVO;
-    }
-
-    /** 获取选中区域所属类权限定名
-     * @param psiJavaFile java 文件
-     * @param editor 编译器
-     * @return 选中区域所属类名
-     * @since 1.0
-     * @author zongf
-     * @created 2019-07-11
-     */
-    private static String getClassName(PsiJavaFile psiJavaFile, Editor editor) {
-
-        // 获取选中区域所属类
-        PsiClass psiClass = getPsiClass(psiJavaFile, editor);
-
-        // 判断所属区域是否属于某个类
-        if (psiClass != null) { // 如果不为空, 则说明
-            return psiClass.getQualifiedName();
-        }else{ // 如果选中区域不属于任何一个类, 则将当前文件的名称返回
-            return psiJavaFile.getPackageName() + "." + psiJavaFile.getName();
-        }
-    }
-
-    /** 获取选中区域位于哪个类中. 有内部类或一个文件中有多个类情况
-     * @param psiJavaFile java 文件
-     * @param editor 编辑器
-     * @return 选中区域所属于的java 对象
-     * @since 1.0
-     * @author zongf
-     * @created 2019-07-11
-     */
-    private static PsiClass getPsiClass( PsiJavaFile psiJavaFile, Editor editor) {
-
-        // 获取选中区域开始和结束位置
-        int start = editor.getSelectionModel().getSelectionStart();
-        int end = editor.getSelectionModel().getSelectionEnd();
-
-        // 如果选中区域开始和结束区域均在类中, 则证明为此类.
-        for (PsiClass psiClass : psiJavaFile.getClasses()) {
-            // 获取类源码的开始和结束范围
-            TextRange textRange = psiClass.getTextRange();
-            if(start > textRange.getStartOffset() && start < textRange.getEndOffset()
-                    && end > textRange.getStartOffset() && end < textRange.getEndOffset()){
-                return psiClass;
-            }
-        }
-        return null;
-    }
-
-    /** 获取方法的参数列表
-     * @param psiMethod java 方法
-     * @return 参数完全限定名称列表
-     * @since 1.0
-     * @author zongf
-     * @created 2019-07-11
-     */
-    private static List<String> getMethodParams(PsiMethod psiMethod) {
-        List<String> paramList = new ArrayList<>();
-        for (PsiParameter psiParameter : psiMethod.getParameterList().getParameters()) {
-            paramList.add(psiParameter.getType().getCanonicalText());
-        }
-        return paramList;
     }
 
 }
