@@ -1,5 +1,7 @@
 package org.zongf.plugins.idea.util.common;
 
+import java.util.regex.Pattern;
+
 /** 新增字符串工具类
  * @author: zongf
  * @created: 2019-07-11
@@ -138,4 +140,16 @@ public class StringUtil {
         int id = str.lastIndexOf(suffix);
         return id == str.length() - suffix.length();
     }
+
+    /** 判断字符串是否为空
+     * @param str
+     * @return null或一连串空格均视为空
+     * @since 1.0
+     * @author zongf
+     * @created 2019-07-17
+     */
+    public static boolean isEmpty(String str) {
+        return str == null || "".equals(str.trim());
+    }
+
 }
