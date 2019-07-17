@@ -33,7 +33,6 @@ public class CodeFormatAction extends AnAction {
         codeFormat(psiFile, editor);
     }
 
-
     /** 格式化代码. 如果未选中任何代码, 则格式化整个文件
      * @param psiFile 需要格式化的文件
      * @param editor 编辑器

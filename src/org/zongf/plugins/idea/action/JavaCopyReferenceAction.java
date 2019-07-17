@@ -8,7 +8,6 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.*;
 import org.zongf.plugins.idea.util.JavaReferenceUtil;
 import org.zongf.plugins.idea.util.common.ClassUtil;
-import org.zongf.plugins.idea.util.common.StringUtil;
 import org.zongf.plugins.idea.util.idea.ClipBoardUtil;
 import org.zongf.plugins.idea.vo.JavaReferenceVO;
 

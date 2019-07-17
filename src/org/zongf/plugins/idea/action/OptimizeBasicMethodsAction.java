@@ -4,14 +4,11 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
 import org.zongf.plugins.idea.util.CodeTemplateUtil;
-import org.zongf.plugins.idea.util.common.StringUtil;
 import org.zongf.plugins.idea.util.idea.EditorUtil;
 import org.zongf.plugins.idea.util.idea.PsiClassUtil;
 
@@ -125,7 +122,6 @@ public class OptimizeBasicMethodsAction extends AnAction {
         return Pattern.compile("^(get|is)[A-Z].*").matcher(psiMethod.getName()).find();
     }
 
-
     /** 是否有可能为set方法. 满足条件: 参数只有一个, 方法名以set开头, 紧跟一个大写字母开头的方法, 可能为set方法
      * @param psiMethod 方法
      * @return 如果参数只有一个, 且方法名为setField ,则返回为true. 否则返回false
@@ -139,8 +135,6 @@ public class OptimizeBasicMethodsAction extends AnAction {
 
         return Pattern.compile("^set[A-Z].*").matcher(psiMethod.getName()).find();
     }
-
-
 
     /** 生成基础方法constructor, setter, getter, toString
      * @param editor 编辑器

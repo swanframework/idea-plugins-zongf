@@ -1,7 +1,5 @@
 package org.zongf.plugins.idea.util.common;
 
-import java.util.regex.Pattern;
-
 /** 新增字符串工具类
  * @author: zongf
  * @created: 2019-07-11

@@ -1,16 +1,11 @@
 package org.zongf.plugins.idea.util;
 
-import com.intellij.ide.actions.JavaQualifiedNameProvider;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
-import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
-import org.zongf.plugins.idea.util.common.StringUtil;
 import org.zongf.plugins.idea.util.idea.PsiClassUtil;
 import org.zongf.plugins.idea.vo.JavaReferenceVO;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 

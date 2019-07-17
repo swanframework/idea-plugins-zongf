@@ -11,7 +11,6 @@ import org.zongf.plugins.idea.util.common.StringUtil;
  */
 public class EditorUtil {
 
-
     public EditorUtil() {
         super();
     }
@@ -27,7 +26,6 @@ public class EditorUtil {
         writeString(editor, content, true, true);
     }
 
-
         /** 写入字符串. idea 写入字符串需要借助于WriteCommandAction
          * @param editor 编辑器
          * @param content 要插入的字符串内容
@@ -39,7 +37,6 @@ public class EditorUtil {
     public static void writeString(Editor editor, String content, boolean fromLineHead) {
         writeString(editor, content, true, fromLineHead);
     }
-
 
     /** 写入字符串. idea 写入字符串需要借助于WriteCommandAction
      * @param editor 编辑器
@@ -84,7 +81,6 @@ public class EditorUtil {
             }
         });
     }
-
 
     /** 优化多行空白行
      * @param editor 文件编辑器
