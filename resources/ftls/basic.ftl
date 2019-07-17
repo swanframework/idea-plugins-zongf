@@ -1,3 +1,4 @@
+
 	public ${className}() {
         super();
     }
