@@ -37,7 +37,7 @@
     <!-- 自定义按钮: 格式化代码 -->
     <action id="org.zongf.plugins.idea.action.CodeFormatAction"
             class="org.zongf.plugins.idea.action.CodeFormatAction"
-            text="Format code">
+            text="Format Code">
       <!-- 指定快捷键 -->
       <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 0"/>
       <!-- 添加到自定义组中-->
@@ -47,39 +47,9 @@
     <!-- 自定义按钮: 优化自动导包 -->
     <action id="org.zongf.plugins.idea.action.OptimizeImportAction"
             class="org.zongf.plugins.idea.action.OptimizeImportAction"
-            text="Optimize auto imports">
+            text="Optimize Auto Imports">
       <!-- 指定快捷键 -->
       <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 9"/>
-      <!-- 添加到自定义组中-->
-      <add-to-group group-id="zongfMenu"/>
-    </action>
-
-    <!-- 自定义按钮: 优化基础方法 -->
-    <action id="org.zongf.plugins.idea.action.OptimizeBasicMethodsAction"
-            class="org.zongf.plugins.idea.action.OptimizeBasicMethodsAction"
-            text="Optimize basic methods">
-      <!-- 指定快捷键 -->
-      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 8"/>
-      <!-- 添加到自定义组中-->
-      <add-to-group group-id="zongfMenu"/>
-    </action>
-
-    <!-- 自定义按钮: 复制引用至剪切板, 使用全限定类名 -->
-    <action id="org.zongf.plugins.idea.action.JavaCopyReferenceAction"
-            class="org.zongf.plugins.idea.action.JavaCopyReferenceAction"
-            text="Copy Java Reference">
-      <!-- 指定快捷键 -->
-      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 7"/>
-      <!-- 添加到自定义组中-->
-      <add-to-group group-id="zongfMenu"/>
-    </action>
-
-    <!-- 自定义按钮: 复制引用至剪切板, 使用简单类名 -->
-    <action id="org.zongf.plugins.idea.action.JavaCopyReferenceSimpleAction"
-            class="org.zongf.plugins.idea.action.JavaCopyReferenceSimpleAction"
-            text="Copy Java Reference Simple">
-      <!-- 指定快捷键 -->
-      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 6"/>
       <!-- 添加到自定义组中-->
       <add-to-group group-id="zongfMenu"/>
     </action>
@@ -89,10 +59,42 @@
             class="org.zongf.plugins.idea.action.OptimizeMultiBlankLineAction"
             text="Optimize Multi Blank Lines">
       <!-- 指定快捷键 -->
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 8"/>
+      <!-- 添加到自定义组中-->
+      <add-to-group group-id="zongfMenu"/>
+    </action>
+
+    <!-- 自定义按钮: 优化基础方法 -->
+    <action id="org.zongf.plugins.idea.action.GenerateBasicMethodsAction"
+            class="org.zongf.plugins.idea.action.GenerateBasicMethodsAction"
+            text="Generate Basic Methods">
+      <!-- 指定快捷键 -->
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 7"/>
+      <!-- 添加到自定义组中-->
+      <add-to-group group-id="zongfMenu"/>
+    </action>
+
+    <!-- 自定义按钮: 复制引用至剪切板, 使用全限定类名 -->
+    <action id="org.zongf.plugins.idea.action.JavaCopyReferenceAction"
+            class="org.zongf.plugins.idea.action.JavaCopyReferenceAction"
+            text="Copy Java Reference">
+      <!-- 指定快捷键 -->
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 6"/>
+      <!-- 添加到自定义组中-->
+      <add-to-group group-id="zongfMenu"/>
+    </action>
+
+    <!-- 自定义按钮: 复制引用至剪切板, 使用简单类名 -->
+    <action id="org.zongf.plugins.idea.action.JavaCopyReferenceSimpleAction"
+            class="org.zongf.plugins.idea.action.JavaCopyReferenceSimpleAction"
+            text="Copy Java Reference Simple">
+      <!-- 指定快捷键 -->
       <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 5"/>
       <!-- 添加到自定义组中-->
       <add-to-group group-id="zongfMenu"/>
     </action>
+
+
 
   </actions>
 

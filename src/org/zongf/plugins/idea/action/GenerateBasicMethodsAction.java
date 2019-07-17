@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
  * @created: 2019-07-12
  * @since 1.0
  */
-public class OptimizeBasicMethodsAction extends AnAction {
+public class GenerateBasicMethodsAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent anActionEvent) {
