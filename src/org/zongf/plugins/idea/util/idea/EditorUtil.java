@@ -2,6 +2,7 @@ package org.zongf.plugins.idea.util.idea;
 
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Editor;
+import org.zongf.plugins.idea.util.common.StringUtil;
 
 /** idea 编辑器工具
  * @author: zongf
@@ -81,6 +82,45 @@ public class EditorUtil {
             }else {
                 editor.getDocument().insertString(editor.getSelectionModel().getSelectionStart(), content);
             }
+        });
+    }
+
+
+    /** 优化多行空白行
+     * @param editor 文件编辑器
+     * @since 1.0
+     * @author zongf
+     * @created 2019-07-17 
+     */
+    public static void optimizeMultiBlankLine(Editor editor){
+
+        // 获取文件内容, 并按换行符分隔
+        String[] array = editor.getDocument().getText().split("\n");
+
+        StringBuffer contentSb = new StringBuffer();
+
+        // 上一行是否非空
+        boolean isPreLineNotEmpty = true;
+
+        for (String line : array) {
+            // 如果当前行为空, 则判断上一行是否为空
+            if (StringUtil.isEmpty(line)) {
+
+                // 如果上一行为空, 则不添加当前行
+                if(isPreLineNotEmpty) contentSb.append(line).append("\n");
+
+                isPreLineNotEmpty = false;
+
+            }else {
+                // 如果当前行非空, 则添加当前行内容, 并设置上一行表示为非空.
+                contentSb.append(line).append("\n");
+                isPreLineNotEmpty = true;
+            }
+        }
+
+        // 写入文件
+        WriteCommandAction.runWriteCommandAction(editor.getProject(),()->{
+            editor.getDocument().setText(contentSb.toString());
         });
     }
 }
