@@ -4,9 +4,11 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
 import org.zongf.plugins.idea.util.CodeTemplateUtil;
 import org.zongf.plugins.idea.util.common.StringUtil;
@@ -16,6 +18,7 @@ import org.zongf.plugins.idea.util.idea.PsiClassUtil;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /** 优化基础方法: setter/getter/toString/Constructor
  * @author: zongf
@@ -67,7 +70,7 @@ public class OptimizeBasicMethodsAction extends AnAction {
         // 获取基础方法列表
         List<PsiMethod> basicMethodList = new ArrayList<>();
         for (PsiMethod psiMethod : psiClass.getMethods()) {
-            if (isBasicMethod(psiMethod, psiClass)) {
+            if (isBasicMethod(psiMethod)) {
                 basicMethodList.add(psiMethod);
             }
         }
@@ -80,17 +83,14 @@ public class OptimizeBasicMethodsAction extends AnAction {
 
     /** 是否是基础方法: contructor, setter, getter, toString
      * @param psiMethod 待验证方法
-     * @param psiClass 方法所属类
      * @return true/false
      * @since 1.0
      * @author zongf
      * @created 2019-07-12 
      */
-    private boolean isBasicMethod(PsiMethod psiMethod, PsiClass psiClass) {
-        PsiField[] psiFields = psiClass.getFields();
-
+    private boolean isBasicMethod(PsiMethod psiMethod) {
         if (psiMethod.isConstructor() || isToStringMethod(psiMethod)
-                || mayBeSetMethod(psiMethod, psiFields) || mayBegetMethod(psiMethod, psiFields)) {
+                || mayBeSetMethod(psiMethod) || mayBegetMethod(psiMethod)) {
             return true;
         }
         
@@ -111,49 +111,33 @@ public class OptimizeBasicMethodsAction extends AnAction {
         return false;
     }
 
-    /** 是否有可能为get方法.
+    /** 是否有可能为get方法. 满足条件: 以get或is开头, 紧跟大写字母开头的方法名, 可能为get方法
      * @param psiMethod 方法
-     * @param psiFields 属性列表
      * @return 如果参数为空, 且方法名为setField 或 getField 格式,则返回为true. 否则返回false
      * @since 1.0
      * @author zongf
      * @created 2019-07-12
      */
-    private boolean mayBegetMethod(PsiMethod psiMethod, PsiField[] psiFields) {
+    private boolean mayBegetMethod(PsiMethod psiMethod) {
         // 方法参数不为空, 则返回fasle;
         if (!psiMethod.getParameterList().isEmpty()) return false;
 
-        for (PsiField field : psiFields) {
-            String fieldUpperName = StringUtil.firstToUpper(field.getName());
-            String methodName = psiMethod.getName();
-            if (methodName.equals("get" + fieldUpperName) || methodName.equals("is" + fieldUpperName)) {
-                   return true;
-            }
-        }
-        return false;
+        return Pattern.compile("^(get|is)[A-Z].*").matcher(psiMethod.getName()).find();
     }
 
 
-    /** 是否有可能为set方法.
+    /** 是否有可能为set方法. 满足条件: 参数只有一个, 方法名以set开头, 紧跟一个大写字母开头的方法, 可能为set方法
      * @param psiMethod 方法
-     * @param psiFields 属性列表
      * @return 如果参数只有一个, 且方法名为setField ,则返回为true. 否则返回false
      * @since 1.0
      * @author zongf
      * @created 2019-07-12
      */
-    private boolean mayBeSetMethod(PsiMethod psiMethod, PsiField[] psiFields) {
+    private boolean mayBeSetMethod(PsiMethod psiMethod) {
         // 方法参数不为空, 则返回fasle;
         if (psiMethod.getParameterList().getParameters().length != 1) return false;
 
-        for (PsiField field : psiFields) {
-            String fieldUpperName = StringUtil.firstToUpper(field.getName());
-            String methodName = psiMethod.getName();
-            if (methodName.equals("set" + fieldUpperName)) {
-                return true;
-            }
-        }
-        return false;
+        return Pattern.compile("^set[A-Z].*").matcher(psiMethod.getName()).find();
     }
 
 
@@ -167,7 +151,7 @@ public class OptimizeBasicMethodsAction extends AnAction {
      */
     private void generateBasicMethods(Editor editor, PsiClass psiClass) {
         // 获取当前类的最后位置
-        int endOffset = psiClass.getTextRange().getEndOffset();
+        final int endOffset = psiClass.getTextRange().getEndOffset();
 
         // 获取当前类中所有字段
         LinkedHashMap<String, String> fields = PsiClassUtil.getFields(psiClass);
@@ -179,6 +163,8 @@ public class OptimizeBasicMethodsAction extends AnAction {
         WriteCommandAction.runWriteCommandAction(editor.getProject(), () -> {
             editor.getDocument().insertString(endOffset - 1, basicCode);
         });
-    }
 
+        // 优化代码
+        EditorUtil.optimizeMultiBlankLine(editor);
+    }
 }
