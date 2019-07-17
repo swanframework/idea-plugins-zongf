@@ -1,7 +1,5 @@
 package org.zongf.plugins.idea.util;
 
-import org.zongf.plugins.idea.util.CodeTemplateUtil;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
