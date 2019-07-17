@@ -96,7 +96,7 @@ public class EditorUtil {
         StringBuffer contentSb = new StringBuffer();
 
         // 上一行是否非空
-        boolean isPreLineNotEmpty = true;
+        boolean isPreLineNotEmpty = false;
 
         for (String line : array) {
             // 如果当前行为空, 则判断上一行是否为空
