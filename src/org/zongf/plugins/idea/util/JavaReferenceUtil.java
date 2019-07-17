@@ -33,7 +33,7 @@ public class JavaReferenceUtil {
         StringBuffer sb = new StringBuffer();
 
         // 拼接类名
-        sb.append(function.apply(javaReferenceVO.getClassName()));
+        sb.append(javaReferenceVO.getClassName());
 
         // 判断是否是方法
         if (javaReferenceVO.getMethodName() != null) { //选中区域是方法
@@ -55,7 +55,7 @@ public class JavaReferenceUtil {
         }
 
         // 拼接行号
-        sb.append(" :").append(javaReferenceVO.getLineNo());
+        sb.append("//Line:").append(javaReferenceVO.getLineNo());
         return sb.toString();
     }
 

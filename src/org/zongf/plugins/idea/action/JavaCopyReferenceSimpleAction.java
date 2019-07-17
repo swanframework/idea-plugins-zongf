@@ -35,8 +35,11 @@ public class JavaCopyReferenceSimpleAction extends AnAction {
         // 解析当前文件文件
         JavaReferenceVO javaReferenceVO = JavaReferenceUtil.parser((PsiJavaFile) psiFile, editor);
 
+        // 处理类名
+        javaReferenceVO.setClassName(ClassUtil.simpleClassName(javaReferenceVO.getClassName()));
+
         // 将java引用对象转换为字符串
-        String reference = JavaReferenceUtil.buildReference(javaReferenceVO, str -> ClassUtil.simpleClassName(str));
+        String reference = JavaReferenceUtil.buildReference(javaReferenceVO, className -> ClassUtil.simpleClassName(className));
 
         // 将内容设置到粘贴板中
         ClipBoardUtil.setStringContent(reference);

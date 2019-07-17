@@ -7,6 +7,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.*;
 import org.zongf.plugins.idea.util.JavaReferenceUtil;
+import org.zongf.plugins.idea.util.common.ClassUtil;
 import org.zongf.plugins.idea.util.common.StringUtil;
 import org.zongf.plugins.idea.util.idea.ClipBoardUtil;
 import org.zongf.plugins.idea.vo.JavaReferenceVO;
@@ -35,7 +36,7 @@ public class JavaCopyReferenceAction extends AnAction {
         JavaReferenceVO javaReferenceVO = JavaReferenceUtil.parser((PsiJavaFile) psiFile, editor);
 
         // 将java引用对象转换为字符串
-        String reference = JavaReferenceUtil.buildReference(javaReferenceVO, str -> str);
+        String reference = JavaReferenceUtil.buildReference(javaReferenceVO, className -> ClassUtil.simpleClassName(className));
 
         // 将内容设置到粘贴板中
         ClipBoardUtil.setStringContent(reference);
