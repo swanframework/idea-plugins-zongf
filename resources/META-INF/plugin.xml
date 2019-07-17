@@ -11,6 +11,7 @@
         <li>自动生成 constructor, settter,getter,toString</li>
         <li>修复自动导入类</li>
         <li>复制引用至剪切板功能</li>
+        <li>优化代码中多行空白行为一行</li>
       </ul>
   ]]></description>
 
@@ -83,6 +84,15 @@
       <add-to-group group-id="zongfMenu"/>
     </action>
 
+    <!-- 自定义按钮: 删除多余的空行 -->
+    <action id="org.zongf.plugins.idea.action.OptimizeMultiBlankLineAction"
+            class="org.zongf.plugins.idea.action.OptimizeMultiBlankLineAction"
+            text="Optimize Multi Blank Lines">
+      <!-- 指定快捷键 -->
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 5"/>
+      <!-- 添加到自定义组中-->
+      <add-to-group group-id="zongfMenu"/>
+    </action>
 
   </actions>
 
