@@ -105,4 +105,37 @@ public class StringUtil {
         String first = str.substring(0, 1);
         return first.toUpperCase() + str.substring(1);
     }
+
+    /** 字符串是否以某字符串开头
+     * @param str 字符串
+     * @param prefix 前缀
+     * @return null
+     * @since 1.0
+     * @author zongf
+     * @created 2019-07-17
+     */
+    public static boolean isBeforeWith(String str, String prefix) {
+
+        // 如果字符串为空, 则返回原字符串
+        if(prefix == null || str == null || "".equals(str) || "".equals(prefix)) return false;
+        int i = str.indexOf(prefix);
+
+        return i == 0;
+    }
+
+    /** 字符串是否以某字符串结尾
+     * @param str 字符串
+     * @param suffix 后缀
+     * @return null
+     * @since 1.0
+     * @author zongf
+     * @created 2019-07-17
+     */
+    public static boolean isEndWith(String str, String suffix) {
+        // 如果字符串为空, 则返回原字符串
+        if(suffix == null || str == null || "".equals(str) || "".equals(suffix)) return false;
+
+        int id = str.lastIndexOf(suffix);
+        return id == str.length() - suffix.length();
+    }
 }
