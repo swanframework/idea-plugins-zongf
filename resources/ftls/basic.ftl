@@ -25,5 +25,5 @@
 
 </#list>
     public String toString() {
-		return super.toString() + ": {<#list fieldMap?keys as fieldName>${fieldName}:" + ${fieldName} <#if fieldName_index != fieldMap?size-1>+ ", </#if></#list> + "}";
+		return getClass().getSimpleName() + "@" + hashCode() + ": {<#list fieldMap?keys as fieldName>${fieldName}:" + ${fieldName} <#if fieldName_index != fieldMap?size-1>+ ", </#if></#list> + "}";
 	}
