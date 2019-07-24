@@ -148,10 +148,12 @@ public class GenerateBasicMethodsAction extends AnAction {
         final int endOffset = psiClass.getTextRange().getEndOffset();
 
         // 获取当前类中所有字段
-        LinkedHashMap<String, String> fields = PsiClassUtil.getFields(psiClass);
+        LinkedHashMap<String, String> fieldMap = PsiClassUtil.getFields(psiClass);
+        // 过滤serialVersionUID 字段
+        fieldMap.keySet().forEach(key -> {if("serialVersionUID".equals(key)) fieldMap.remove(key);});
 
         // 获取自动生成代码
-        String basicCode = CodeTemplateUtil.getBasicCode(psiClass.getName(), fields);
+        String basicCode = CodeTemplateUtil.getBasicCode(psiClass.getName(), fieldMap);
 
         // 写入文件
         WriteCommandAction.runWriteCommandAction(editor.getProject(), () -> {
