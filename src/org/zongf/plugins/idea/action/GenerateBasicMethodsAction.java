@@ -150,7 +150,7 @@ public class GenerateBasicMethodsAction extends AnAction {
         // 获取当前类中所有字段
         LinkedHashMap<String, String> fieldMap = PsiClassUtil.getFields(psiClass);
         // 过滤serialVersionUID 字段
-        fieldMap.keySet().forEach(key -> {if("serialVersionUID".equals(key)) fieldMap.remove(key);});
+        fieldMap.remove("serialVersionUID");
 
         // 获取自动生成代码
         String basicCode = CodeTemplateUtil.getBasicCode(psiClass.getName(), fieldMap);
