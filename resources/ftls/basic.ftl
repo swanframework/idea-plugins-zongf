@@ -3,6 +3,7 @@
         super();
     }
 
+    <#if (fieldMap?size>0)>
 	public ${className}(<#list fieldMap?keys as fieldName>${fieldMap[fieldName]} ${fieldName}<#if fieldName_index != fieldMap?size-1>, </#if></#list>) {
         super();
 	<#list fieldMap?keys as fieldName>
@@ -10,6 +11,7 @@
 	</#list>
     }
 
+	</#if>
 <#list fieldMap?keys as fieldName>
     public void set${fieldName?cap_first}(${fieldMap[fieldName]} ${fieldName}){
 		this.${fieldName}=${fieldName};
