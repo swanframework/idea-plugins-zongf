@@ -12,6 +12,7 @@
         <li>修复自动导入类</li>
         <li>复制引用至剪切板功能</li>
         <li>优化代码中多行空白行为一行</li>
+        <li>unicode 属性文件转换为可读文件</li>
       </ul>
   ]]></description>
 
@@ -27,75 +28,90 @@
 
   <actions>
 
-    <!-- 定义标签组信息, 组标签为zongf, 描述为 -->
-    <group id="zongfMenu" text="zongf" description="自定义插件" popup="true" >
+    <!--************************** 第1组 zongf-generate******************************************** -->
+    <group id="zongfGenerate" text="zongf-generate" description="自定义插件" popup="true" >
       <!-- 将自定义标签组添加到ManinMenu(顶部菜单栏), 位置last(最后) -->
       <add-to-group group-id="MainMenu" anchor="last"  />
       <!-- 添加到右键菜单 -->
       <add-to-group group-id="EditorPopupMenu" anchor="first" />
     </group>
 
+    <!--************************** 第2组 zongf-optimize ******************************************** -->
+    <group id="zongfOptimize" text="zongf-optimize" description="自定义插件" popup="true" >
+      <!-- 添加到右键菜单 -->
+      <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="zongfGenerate" />
+    </group>
+
+    <!--************************** 第3组 zongf-copy ******************************************** -->
+    <group id="zongfCopy" text="zongf-copy" description="自定义插件" popup="true" >
+      <!-- 添加到右键菜单 -->
+      <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="zongfOptimize" />
+    </group>
+
+    <!--************************** 第4组 zongf-work ******************************************** -->
+    <!-- 定义标签组信息, 组标签为zongf, 描述为 -->
+    <group id="workMenu" text="zongf-work" description="自定义插件" popup="true" >
+      <!-- 添加到右键菜单 -->
+      <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="zongfCopy" />
+    </group>
+
     <!-- 自定义按钮: 格式化代码 -->
     <action id="org.zongf.plugins.idea.action.CodeFormatAction"
             class="org.zongf.plugins.idea.action.CodeFormatAction"
             text="Format Code">
-      <!-- 指定快捷键 -->
-      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 0"/>
       <!-- 添加到自定义组中-->
-      <add-to-group group-id="zongfMenu"/>
+      <add-to-group group-id="zongfOptimize"/>
     </action>
 
     <!-- 自定义按钮: 优化自动导包 -->
     <action id="org.zongf.plugins.idea.action.OptimizeImportAction"
             class="org.zongf.plugins.idea.action.OptimizeImportAction"
             text="Optimize Auto Imports">
-      <!-- 指定快捷键 -->
-      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 9"/>
       <!-- 添加到自定义组中-->
-      <add-to-group group-id="zongfMenu"/>
+      <add-to-group group-id="zongfOptimize"/>
     </action>
 
     <!-- 自定义按钮: 删除多余的空行 -->
     <action id="org.zongf.plugins.idea.action.OptimizeMultiBlankLineAction"
             class="org.zongf.plugins.idea.action.OptimizeMultiBlankLineAction"
             text="Optimize Multi Blank Lines">
-      <!-- 指定快捷键 -->
-      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 8"/>
       <!-- 添加到自定义组中-->
-      <add-to-group group-id="zongfMenu"/>
+      <add-to-group group-id="zongfOptimize"/>
     </action>
 
-    <!-- 自定义按钮: 优化基础方法 -->
+    <!-- 自定义按钮: 生成基础方法 -->
     <action id="org.zongf.plugins.idea.action.GenerateBasicMethodsAction"
             class="org.zongf.plugins.idea.action.GenerateBasicMethodsAction"
             text="Generate Basic Methods">
       <!-- 指定快捷键 -->
-      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 7"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 0"/>
       <!-- 添加到自定义组中-->
-      <add-to-group group-id="zongfMenu"/>
+      <add-to-group group-id="zongfGenerate"/>
     </action>
 
     <!-- 自定义按钮: 复制引用至剪切板, 使用全限定类名 -->
     <action id="org.zongf.plugins.idea.action.JavaCopyReferenceAction"
             class="org.zongf.plugins.idea.action.JavaCopyReferenceAction"
             text="Copy Java Reference">
-      <!-- 指定快捷键 -->
-      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 6"/>
       <!-- 添加到自定义组中-->
-      <add-to-group group-id="zongfMenu"/>
+      <add-to-group group-id="zongfCopy"/>
     </action>
 
     <!-- 自定义按钮: 复制引用至剪切板, 使用简单类名 -->
     <action id="org.zongf.plugins.idea.action.JavaCopyReferenceSimpleAction"
             class="org.zongf.plugins.idea.action.JavaCopyReferenceSimpleAction"
             text="Copy Java Reference Simple">
-      <!-- 指定快捷键 -->
-      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 5"/>
       <!-- 添加到自定义组中-->
-      <add-to-group group-id="zongfMenu"/>
+      <add-to-group group-id="zongfCopy"/>
     </action>
 
-
+    <!-- 自定义按钮: 复制引用至剪切板, 使用简单类名 -->
+    <action id="org.zongf.plugins.idea.action.work.UnicodeFileConverterAction"
+            class="org.zongf.plugins.idea.action.work.UnicodeFileConverterAction"
+            text="Repaire Description File">
+      <!-- 添加到自定义组中-->
+      <add-to-group group-id="workMenu"/>
+    </action>
 
   </actions>
 
