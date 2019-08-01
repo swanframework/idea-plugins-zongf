@@ -78,19 +78,28 @@ public class PsiClassUtil {
         }
     }
 
-    /** 获取当前类定义的所有字段
+    /** 获取当前类中定义的私有属性
      * @param psiClass 当前类类型
      * @return LinkedHashMap 字段名和字段类型组成的key-value键值对
      * @since 1.0
      * @author zongf
      * @created 2019-07-09
      */
-    public static LinkedHashMap<String, String> getFields(PsiClass psiClass) {
+    public static LinkedHashMap<String, String> getPrivateFields(PsiClass psiClass) {
         LinkedHashMap<String, String> fieldMap = new LinkedHashMap<>();
 
+        // 获取本类中声明所有方法
         PsiField[] allFields = psiClass.getFields();
+
         for (PsiField field : allFields) {
+
+            // 过滤静态属性
+            if(field.getModifierList().hasModifierProperty("static")) continue;
+
+            // 获取字段名
             String canonicalText = field.getType().getCanonicalText();
+
+            // 获取字段类型
             String fieldType = ClassUtil.simpleClassName(canonicalText);
             fieldMap.put(field.getName(), fieldType);
         }

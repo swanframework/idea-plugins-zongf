@@ -144,11 +144,16 @@ public class GenerateBasicMethodsAction extends AnAction {
      * @created 2019-07-12 
      */
     private void generateBasicMethods(Editor editor, PsiClass psiClass) {
-        // 获取当前类的最后位置
-        final int endOffset = psiClass.getTextRange().getEndOffset();
+        // 获取最后一个字段
+        PsiField[] fields = psiClass.getFields();
+        PsiField lastField = fields[fields.length-1];
+
+        // 获取最后一个字段的位置
+        final int endOffset = lastField.getTextRange().getEndOffset();
 
         // 获取当前类中所有字段
-        LinkedHashMap<String, String> fieldMap = PsiClassUtil.getFields(psiClass);
+        LinkedHashMap<String, String> fieldMap = PsiClassUtil.getPrivateFields(psiClass);
+
         // 过滤serialVersionUID 字段
         fieldMap.remove("serialVersionUID");
 
@@ -157,7 +162,7 @@ public class GenerateBasicMethodsAction extends AnAction {
 
         // 写入文件
         WriteCommandAction.runWriteCommandAction(editor.getProject(), () -> {
-            editor.getDocument().insertString(endOffset - 1, basicCode);
+            editor.getDocument().insertString(endOffset, "\n" + basicCode);
         });
 
         // 优化代码

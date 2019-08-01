@@ -5,7 +5,6 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.zongf.plugins.idea.util.CodeTemplateUtil;
@@ -37,7 +36,7 @@ public class BasicCodeAction extends AnAction {
         PsiClass psiClass = PsiTreeUtil.getChildOfType(psiFile.getOriginalElement(), PsiClass.class);
 
         // 获取当前类中所有字段
-        LinkedHashMap<String, String> fields = PsiClassUtil.getFields(psiClass);
+        LinkedHashMap<String, String> fields = PsiClassUtil.getPrivateFields(psiClass);
 
         if (fields == null || fields.size() == 0) {
             Messages.showInfoMessage(psiClass.getName() + "类中没有检测到属性","没有属性");
