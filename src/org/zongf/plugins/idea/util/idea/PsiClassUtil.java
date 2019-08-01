@@ -88,7 +88,7 @@ public class PsiClassUtil {
     public static LinkedHashMap<String, String> getFields(PsiClass psiClass) {
         LinkedHashMap<String, String> fieldMap = new LinkedHashMap<>();
 
-        PsiField[] allFields = psiClass.getAllFields();
+        PsiField[] allFields = psiClass.getFields();
         for (PsiField field : allFields) {
             String canonicalText = field.getType().getCanonicalText();
             String fieldType = ClassUtil.simpleClassName(canonicalText);
