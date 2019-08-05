@@ -42,27 +42,20 @@
       <add-to-group group-id="zongfMenu" anchor="last"  />
     </group>
 
+    <!-- 自定义按钮: 生成基础方法 -->
+    <action id="org.zongf.plugins.idea.action.GenerateBasicMethodsAction"
+            class="org.zongf.plugins.idea.action.GenerateBasicMethodsAction"
+            text="Generate Basic Methods">
+      <!-- 指定快捷键 -->
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 0"/>
+      <!-- 添加到自定义组中-->
+      <add-to-group group-id="zongfGenerate"/>
+    </action>
+
     <!--************************** 鼠标右键菜单-第2组 zongf-optimize ******************************************** -->
     <group id="zongfOptimize" text="zongf-optimize" description="自定义插件" popup="true" >
       <!-- 添加到右键菜单 -->
       <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="zongfGenerate" />
-      <!-- 添加到顶部菜单 -->
-      <add-to-group group-id="zongfMenu" anchor="last"  />
-    </group>
-
-    <!--************************** 鼠标右键菜单-第3组 zongf-copy ******************************************** -->
-    <group id="zongfCopy" text="zongf-copy" description="自定义插件" popup="true" >
-      <!-- 添加到右键菜单 -->
-      <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="zongfOptimize" />
-      <!-- 添加到顶部菜单 -->
-      <add-to-group group-id="zongfMenu" anchor="last"  />
-    </group>
-
-    <!--************************** 鼠标右键菜单-第4组 zongf-work ******************************************** -->
-    <!-- 定义标签组信息, 组标签为zongf, 描述为 -->
-    <group id="workMenu" text="zongf-work" description="自定义插件" popup="true" >
-      <!-- 添加到右键菜单 -->
-      <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="zongfCopy" />
       <!-- 添加到顶部菜单 -->
       <add-to-group group-id="zongfMenu" anchor="last"  />
     </group>
@@ -91,15 +84,14 @@
       <add-to-group group-id="zongfOptimize"/>
     </action>
 
-    <!-- 自定义按钮: 生成基础方法 -->
-    <action id="org.zongf.plugins.idea.action.GenerateBasicMethodsAction"
-            class="org.zongf.plugins.idea.action.GenerateBasicMethodsAction"
-            text="Generate Basic Methods">
-      <!-- 指定快捷键 -->
-      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 0"/>
-      <!-- 添加到自定义组中-->
-      <add-to-group group-id="zongfGenerate"/>
-    </action>
+
+    <!--************************** 鼠标右键菜单-第3组 zongf-copy ******************************************** -->
+    <group id="zongfCopy" text="zongf-copy" description="自定义插件" popup="true" >
+      <!-- 添加到右键菜单 -->
+      <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="zongfOptimize" />
+      <!-- 添加到顶部菜单 -->
+      <add-to-group group-id="zongfMenu" anchor="last"  />
+    </group>
 
     <!-- 自定义按钮: 复制引用至剪切板, 使用全限定类名 -->
     <action id="org.zongf.plugins.idea.action.JavaCopyReferenceAction"
@@ -117,12 +109,32 @@
       <add-to-group group-id="zongfCopy"/>
     </action>
 
+
+    <!--************************** 鼠标右键菜单-第4组 zongf-work ******************************************** -->
+    <!-- 定义标签组信息, 组标签为zongf, 描述为 -->
+    <group id="workMenu" text="zongf-work" description="自定义插件" popup="true" >
+      <!-- 添加到右键菜单 -->
+      <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="zongfCopy" />
+      <!-- 添加到顶部菜单 -->
+      <add-to-group group-id="zongfMenu" anchor="last"  />
+    </group>
+
     <!-- 自定义按钮: 复制引用至剪切板, 使用简单类名 -->
     <action id="org.zongf.plugins.idea.action.work.UnicodeFileConverterAction"
             class="org.zongf.plugins.idea.action.work.UnicodeFileConverterAction"
             text="Repaire Description File">
       <!-- 添加到自定义组中-->
       <add-to-group group-id="workMenu"/>
+    </action>
+
+    <!-- 生成方法注释 -->
+    <action id="org.zongf.plugins.idea.action.work.AddMethodCommentAction"
+            class="org.zongf.plugins.idea.action.work.AddMethodCommentAction"
+            text="Add Method Comments">
+      <!-- 添加到自定义组中-->
+      <add-to-group group-id="workMenu"/>
+      <!-- 指定快捷键 -->
+      <keyboard-shortcut keymap="$default" first-keystroke="alt M"/>
     </action>
 
   </actions>
