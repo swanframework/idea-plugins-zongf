@@ -23,7 +23,7 @@ public class MethodCommentUtil {
      * @author: zongf
      * @time: 2019-08-05 19:53:18
      */
-    public static void writeMethodComment(Editor editor, PsiFile psiFile, String templatePath) {
+    public static void writeMethodComment(Editor editor, PsiFile psiFile, String templatePath, boolean focusSecondLine) {
 
         // 获取当前所在方法
         PsiMethod currentMethod = MethodCommentUtil.getCursorInMethod(editor, psiFile);
@@ -36,8 +36,19 @@ public class MethodCommentUtil {
 
         // 生成注释
         WriteCommandAction.runWriteCommandAction(editor.getProject(), () -> {
+            // 获取方法第一行行首偏移量
             int methodLineStartOffset = EditorUtil.getLineOffsetStart(editor, currentMethod.getTextRange().getStartOffset());
             editor.getDocument().insertString(methodLineStartOffset -1, content);
+
+            // 获取第一行行尾偏移量
+            int lineOffsetEnd = EditorUtil.getLineOffsetEnd(editor, methodLineStartOffset);
+
+            // 聚焦注释第二行, 默认聚焦注释第一行
+            if (focusSecondLine) {
+                lineOffsetEnd = EditorUtil.getLineOffsetEnd(editor, lineOffsetEnd + 1);
+            }
+
+            editor.getCaretModel().moveToOffset(lineOffsetEnd);
         });
 
     }
