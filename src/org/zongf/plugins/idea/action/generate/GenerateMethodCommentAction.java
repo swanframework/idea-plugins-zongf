@@ -29,7 +29,8 @@ public class GenerateMethodCommentAction extends AnAction {
         }
 
         // 生成注释
-        MethodCommentUtil.writeMethodComment(editor, psiFile, "generateMethodComments.ftl");
+        MethodCommentUtil.writeMethodComment(editor, psiFile, "generateMethodComments.ftl", false);
+
     }
 
 }

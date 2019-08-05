@@ -28,7 +28,7 @@ public class AddMethodCommentAction extends AnAction {
         }
 
         // 生成注释
-        MethodCommentUtil.writeMethodComment(editor, psiFile, "work/addMethodComments.ftl");
+        MethodCommentUtil.writeMethodComment(editor, psiFile, "work/addMethodComments.ftl", true);
 
     }
 }
