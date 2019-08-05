@@ -119,4 +119,46 @@ public class EditorUtil {
             editor.getDocument().setText(contentSb.toString());
         });
     }
+
+    /** 获取选中内容，第一行的行号
+     * @return: int 行号，从0 开始
+     * @author: zongf
+     * @time: 2019-08-05 19:08:54
+     */
+    public static int getSelectedStartLineNum(Editor editor) {
+        int startOffset = editor.getSelectionModel().getSelectionStart();
+        return editor.getDocument().getLineNumber(startOffset);
+    }
+
+    /** 获取选中内容，最后一行的行号
+     * @return: int 行号，从0 开始
+     * @author: zongf
+     * @time: 2019-08-05 19:08:54
+     */
+    public static int getSelectedEndLineNum(Editor editor) {
+        int endOffset = editor.getSelectionModel().getSelectionEnd();
+        return editor.getDocument().getLineNumber(endOffset);
+    }
+
+    /** 获取选中行，第一行,行首字符偏移量
+     * @return: null
+     * @author: zongf
+     * @time: 2019-08-05 19:11:10
+     */
+    public static int getSelectedStartLineOffsetStart(Editor editor) {
+        int selectedStartLineNum = getSelectedStartLineNum(editor);
+        return editor.getDocument().getLineStartOffset(selectedStartLineNum);
+    }
+
+    /** 获取偏移量所在行，行首偏移量
+     * @param offset 偏移量
+     * @return: int 行首偏移量
+     * @author: zongf
+     * @time: 2019-08-05 19:24:59
+     */
+    public static int getLineOffsetStart(Editor editor, int offset) {
+        // 获取方法开始行首字符偏移量
+        int lineNumber = editor.getDocument().getLineNumber(offset);
+        return editor.getDocument().getLineStartOffset(lineNumber);
+    }
 }
