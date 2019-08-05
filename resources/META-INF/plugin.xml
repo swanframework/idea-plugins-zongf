@@ -43,11 +43,19 @@
     </group>
 
     <!-- 自定义按钮: 生成基础方法 -->
-    <action id="org.zongf.plugins.idea.action.GenerateBasicMethodsAction"
-            class="org.zongf.plugins.idea.action.GenerateBasicMethodsAction"
+    <action id="org.zongf.plugins.idea.action.generate.GenerateBasicMethodsAction"
+            class="org.zongf.plugins.idea.action.generate.GenerateBasicMethodsAction"
             text="Generate Basic Methods">
       <!-- 指定快捷键 -->
       <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 0"/>
+      <!-- 添加到自定义组中-->
+      <add-to-group group-id="zongfGenerate"/>
+    </action>
+
+    <!-- 生成方法注释 -->
+    <action id="org.zongf.plugins.idea.action.generate.GenerateMethodCommentAction"
+            class="org.zongf.plugins.idea.action.generate.GenerateMethodCommentAction"
+            text="Generate Method Comments">
       <!-- 添加到自定义组中-->
       <add-to-group group-id="zongfGenerate"/>
     </action>
@@ -61,31 +69,31 @@
     </group>
 
     <!-- 自定义按钮: 格式化代码 -->
-    <action id="org.zongf.plugins.idea.action.CodeFormatAction"
-            class="org.zongf.plugins.idea.action.CodeFormatAction"
+    <action id="org.zongf.plugins.idea.action.optimize.CodeFormatAction"
+            class="org.zongf.plugins.idea.action.optimize.CodeFormatAction"
             text="Format Code">
       <!-- 添加到自定义组中-->
       <add-to-group group-id="zongfOptimize"/>
     </action>
 
     <!-- 自定义按钮: 优化自动导包 -->
-    <action id="org.zongf.plugins.idea.action.OptimizeImportAction"
-            class="org.zongf.plugins.idea.action.OptimizeImportAction"
+    <action id="org.zongf.plugins.idea.action.optimize.OptimizeImportAction"
+            class="org.zongf.plugins.idea.action.optimize.OptimizeImportAction"
             text="Optimize Auto Imports">
       <!-- 添加到自定义组中-->
       <add-to-group group-id="zongfOptimize"/>
     </action>
 
     <!-- 自定义按钮: 删除多余的空行 -->
-    <action id="org.zongf.plugins.idea.action.OptimizeMultiBlankLineAction"
-            class="org.zongf.plugins.idea.action.OptimizeMultiBlankLineAction"
+    <action id="org.zongf.plugins.idea.action.optimize.OptimizeMultiBlankLineAction"
+            class="org.zongf.plugins.idea.action.optimize.OptimizeMultiBlankLineAction"
             text="Optimize Multi Blank Lines">
       <!-- 添加到自定义组中-->
       <add-to-group group-id="zongfOptimize"/>
     </action>
 
 
-    <!--************************** 鼠标右键菜单-第3组 zongf-copy ******************************************** -->
+    <!--************************** 鼠标右键菜单-第3组 zongf-reference ******************************************** -->
     <group id="zongfCopy" text="zongf-copy" description="自定义插件" popup="true" >
       <!-- 添加到右键菜单 -->
       <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="zongfOptimize" />
@@ -94,16 +102,16 @@
     </group>
 
     <!-- 自定义按钮: 复制引用至剪切板, 使用全限定类名 -->
-    <action id="org.zongf.plugins.idea.action.JavaCopyReferenceAction"
-            class="org.zongf.plugins.idea.action.JavaCopyReferenceAction"
+    <action id="org.zongf.plugins.idea.action.reference.JavaCopyReferenceAction"
+            class="org.zongf.plugins.idea.action.reference.JavaCopyReferenceAction"
             text="Copy Java Reference">
       <!-- 添加到自定义组中-->
       <add-to-group group-id="zongfCopy"/>
     </action>
 
     <!-- 自定义按钮: 复制引用至剪切板, 使用简单类名 -->
-    <action id="org.zongf.plugins.idea.action.JavaCopyReferenceSimpleAction"
-            class="org.zongf.plugins.idea.action.JavaCopyReferenceSimpleAction"
+    <action id="org.zongf.plugins.idea.action.reference.JavaCopyReferenceSimpleAction"
+            class="org.zongf.plugins.idea.action.reference.JavaCopyReferenceSimpleAction"
             text="Copy Java Reference Simple">
       <!-- 添加到自定义组中-->
       <add-to-group group-id="zongfCopy"/>

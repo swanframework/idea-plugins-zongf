@@ -1,4 +1,4 @@
-package org.zongf.plugins.idea.action;
+package org.zongf.plugins.idea.action.optimize;
 
 import com.intellij.codeInsight.actions.ReformatCodeProcessor;
 import com.intellij.openapi.actionSystem.AnAction;

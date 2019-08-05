@@ -1,4 +1,4 @@
-package org.zongf.plugins.idea.action;
+package org.zongf.plugins.idea.action.generate;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
