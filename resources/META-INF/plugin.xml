@@ -58,6 +58,8 @@
             text="Generate Method Comments">
       <!-- 添加到自定义组中-->
       <add-to-group group-id="zongfGenerate"/>
+      <!-- 指定快捷键 -->
+      <keyboard-shortcut keymap="$default" first-keystroke="alt M"/>
     </action>
 
     <!--************************** 鼠标右键菜单-第2组 zongf-optimize ******************************************** -->
@@ -141,8 +143,7 @@
             text="Add Method Comments">
       <!-- 添加到自定义组中-->
       <add-to-group group-id="workMenu"/>
-      <!-- 指定快捷键 -->
-      <keyboard-shortcut keymap="$default" first-keystroke="alt M"/>
+
     </action>
 
   </actions>
