@@ -5,6 +5,7 @@ import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
+import com.intellij.psi.javadoc.PsiDocComment;
 import org.zongf.plugins.idea.util.idea.EditorUtil;
 import org.zongf.plugins.idea.util.idea.PsiClassUtil;
 
@@ -31,11 +32,16 @@ public class MethodCommentUtil {
         // 如果当前光标所在方法为null, 则不进行任何操作
         if(currentMethod == null) return;
 
-        // 获取注释内容
-        String content = MethodCommentUtil.getMethodComment(editor, currentMethod, templatePath);
 
         // 生成注释
         WriteCommandAction.runWriteCommandAction(editor.getProject(), () -> {
+
+            // 如果文档注释不为空, 则先删除现有文档注释
+            PsiDocComment docComment = currentMethod.getDocComment();
+            if (docComment != null)  docComment.delete();
+
+            // 获取注释内容
+            String content = MethodCommentUtil.getMethodComment(editor, currentMethod, templatePath);
             // 获取方法第一行行首偏移量
             int methodLineStartOffset = EditorUtil.getLineOffsetStart(editor, currentMethod.getTextRange().getStartOffset());
             editor.getDocument().insertString(methodLineStartOffset -1, content);
