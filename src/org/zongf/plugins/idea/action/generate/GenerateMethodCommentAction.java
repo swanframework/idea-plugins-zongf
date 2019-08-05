@@ -7,6 +7,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiJavaFile;
+import com.intellij.psi.PsiMethod;
 import org.zongf.plugins.idea.util.MethodCommentUtil;
 
 /**
@@ -30,7 +31,6 @@ public class GenerateMethodCommentAction extends AnAction {
 
         // 生成注释
         MethodCommentUtil.writeMethodComment(editor, psiFile, "generateMethodComments.ftl", false);
-
     }
 
 }
