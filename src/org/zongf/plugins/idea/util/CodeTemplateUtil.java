@@ -2,9 +2,14 @@ package org.zongf.plugins.idea.util;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import org.zongf.plugins.idea.util.common.ClassUtil;
 
 import java.io.StringWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /** 代码模板工具类
@@ -73,5 +78,22 @@ public class CodeTemplateUtil {
         root.put("className", className);
         root.put("fieldMap", fieldMap);
         return getTemplate("basic.ftl", root);
+    }
+
+    /** 获取方法注释模板
+     * @param paramNames 方法形参列表
+     * @param result 方法返回值
+     * @param indent 方法前缩进
+     * @return: null
+     * @author: zongf
+     * @time: 2019-08-05 19:41:32
+     */
+    public static String getAddMethodComment(List<String> paramNames, String result, String indent) {
+        Map<String,Object> root = new HashMap<>();
+        root.put("return", ClassUtil.simpleClassName(result));
+        root.put("paramNames", paramNames);
+        root.put("indent", indent);
+        root.put("date", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now()));
+        return getTemplate("work/addMethodComments.ftl", root);
     }
 }
