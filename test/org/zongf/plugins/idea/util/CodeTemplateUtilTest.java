@@ -27,7 +27,8 @@ public class CodeTemplateUtilTest {
 
     public static void test_addMethodComments(){
 
-        String templatePath = "generateMethodComments.ftl";
+        String templatePath = "work/addMethodComments.ftl";
+//        String templatePath = "generateMethodComments.ftl";
         String content = CodeTemplateUtil.getAddMethodComment(Arrays.asList("name", "id", "age"), "List<java.lang.String>", "    ", templatePath);
 
         System.out.println(content);
