@@ -129,6 +129,16 @@
       <add-to-group group-id="zongfMenu" anchor="last"  />
     </group>
 
+    <!-- 生成方法注释 -->
+    <action id="org.zongf.plugins.idea.action.work.AddMethodCommentAction"
+            class="org.zongf.plugins.idea.action.work.AddMethodCommentAction"
+            text="Add Method Comments">
+      <!-- 添加到自定义组中-->
+      <add-to-group group-id="workMenu"/>
+      <!-- 指定快捷键 -->
+      <keyboard-shortcut keymap="$default" first-keystroke="alt shift M"/>
+    </action>
+
     <!-- 自定义按钮: 复制引用至剪切板, 使用简单类名 -->
     <action id="org.zongf.plugins.idea.action.work.UnicodeFileConverterAction"
             class="org.zongf.plugins.idea.action.work.UnicodeFileConverterAction"
@@ -137,14 +147,6 @@
       <add-to-group group-id="workMenu"/>
     </action>
 
-    <!-- 生成方法注释 -->
-    <action id="org.zongf.plugins.idea.action.work.AddMethodCommentAction"
-            class="org.zongf.plugins.idea.action.work.AddMethodCommentAction"
-            text="Add Method Comments">
-      <!-- 添加到自定义组中-->
-      <add-to-group group-id="workMenu"/>
-
-    </action>
 
   </actions>
 
