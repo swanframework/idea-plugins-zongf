@@ -157,8 +157,20 @@ public class EditorUtil {
      * @time: 2019-08-05 19:24:59
      */
     public static int getLineOffsetStart(Editor editor, int offset) {
-        // 获取方法开始行首字符偏移量
+        // 获取所在行号
         int lineNumber = editor.getDocument().getLineNumber(offset);
         return editor.getDocument().getLineStartOffset(lineNumber);
+    }
+
+    /** 获取偏移量所在行，行尾偏移量
+     * @param offset 偏移量
+     * @return: int 行首偏移量
+     * @author: zongf
+     * @time: 2019-08-05 19:24:59
+     */
+    public static int getLineOffsetEnd(Editor editor, int offset) {
+        // 获取所在行号
+        int lineNumber = editor.getDocument().getLineNumber(offset);
+        return editor.getDocument().getLineEndOffset(lineNumber);
     }
 }
