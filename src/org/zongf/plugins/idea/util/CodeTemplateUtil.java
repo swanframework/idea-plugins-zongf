@@ -84,16 +84,17 @@ public class CodeTemplateUtil {
      * @param paramNames 方法形参列表
      * @param result 方法返回值
      * @param indent 方法前缩进
+     * @param templatePath 模板路径
      * @return: null
      * @author: zongf
      * @time: 2019-08-05 19:41:32
      */
-    public static String getAddMethodComment(List<String> paramNames, String result, String indent) {
+    public static String getAddMethodComment(List<String> paramNames, String result, String indent, String templatePath) {
         Map<String,Object> root = new HashMap<>();
         root.put("return", ClassUtil.simpleClassName(result));
         root.put("paramNames", paramNames);
         root.put("indent", indent);
         root.put("date", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now()));
-        return getTemplate("work/addMethodComments.ftl", root);
+        return getTemplate(templatePath, root);
     }
 }
