@@ -40,6 +40,7 @@ public class ExecuteScriptAction extends AnAction {
 
             // 执行命令
             terminalPanel.getTerminalOutputStream().sendString(cmd);
+
         });
     }
 
@@ -61,8 +62,8 @@ public class ExecuteScriptAction extends AnAction {
 
         // 先切入脚本所在目录，然后再执行脚本
         StringBuffer cmdSb = new StringBuffer();
-        cmdSb.append("clear ").append("\n");
         cmdSb.append("cd ").append(fileDir).append("\n");
+        cmdSb.append("clear ").append("\n");
         cmdSb.append("./").append(fileName).append("\n");
 
         return cmdSb.toString();
