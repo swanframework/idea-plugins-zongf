@@ -20,6 +20,7 @@ import javax.swing.*;
  * @date: 2019-08-05 14:49
  */
 public class ExecuteScriptAction extends AnAction {
+
     @Override
     public void actionPerformed(AnActionEvent anActionEvent) {
 
@@ -31,12 +32,25 @@ public class ExecuteScriptAction extends AnAction {
 
         // 执行命令
         terminal.activate(()->{
+            // 获取最新的终端
             JBTerminalPanel terminalPanel = getLastedTerminalPanel(terminal, anActionEvent);
+
+            // 获取待执行的命令
             String cmd = getCmd(psiFile);
+
+            // 执行命令
             terminalPanel.getTerminalOutputStream().sendString(cmd);
         });
     }
 
+
+    /** 获取脚本执行命令
+     * @param psiFile 脚本文件
+     * @return String 脚本命令
+     * @since 1.0
+     * @author zongf
+     * @created 2019-08-06
+     */
     private String getCmd(PsiFile psiFile) {
         // 获取文件全路径名称
         String filePath = psiFile.getVirtualFile().getCanonicalPath();
@@ -54,9 +68,17 @@ public class ExecuteScriptAction extends AnAction {
         return cmdSb.toString();
     }
 
-    private JBTerminalPanel getLastedTerminalPanel(ToolWindow terminal, AnActionEvent anAction) {
+    /** 获取新建的Terminal Tab页
+     * @param terminalToolWindow 终端窗口
+     * @param anAction
+     * @return JBTerminalPanel
+     * @since 1.0
+     * @author zongf
+     * @created 2019-08-06
+     */
+    private JBTerminalPanel getLastedTerminalPanel(ToolWindow terminalToolWindow, AnActionEvent anAction) {
         JBTerminalPanel terminalPanel = null;
-        JComponent root = terminal.getComponent();
+        JComponent root = terminalToolWindow.getComponent();
         JComponent jPanel = (JComponent) root.getComponent(0);
         JComponent jPanel1 = (JComponent) jPanel.getComponent(0);
         JComponent jPanel2 = (JComponent) jPanel1.getComponent(0);
