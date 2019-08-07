@@ -140,6 +140,13 @@
       <add-to-group group-id="zongfRun"/>
     </action>
 
+    <action id="org.zongf.plugins.idea.action.run.CloseScriptTerminalAction"
+            class="org.zongf.plugins.idea.action.run.CloseScriptTerminalAction"
+            text="Close Script Terminals">
+      <!-- 添加到自定义组中-->
+      <add-to-group group-id="zongfRun"/>
+    </action>
+
 
     <!--************************** 鼠标右键菜单-第5组 zongf-work ******************************************** -->
     <!-- 定义标签组信息, 组标签为zongf, 描述为 -->
