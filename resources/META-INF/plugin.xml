@@ -138,6 +138,8 @@
             text="Run Script">
       <!-- 添加到自定义组中-->
       <add-to-group group-id="zongfRun"/>
+      <!-- 指定快捷键 -->
+      <keyboard-shortcut keymap="$default" first-keystroke="alt R"/>
     </action>
 
     <action id="org.zongf.plugins.idea.action.run.CloseScriptTerminalAction"
