@@ -33,7 +33,7 @@ public class ExecuteScriptAction extends AnAction {
         // 执行命令
         terminal.activate(()->{
             // 获取最新的终端
-            JBTerminalPanel terminalPanel = getLastedTerminalPanel(terminal, anActionEvent);
+            JBTerminalPanel terminalPanel = getLastedTerminalPanel(psiFile, terminal, anActionEvent);
 
             // 获取待执行的命令
             String cmd = getCmd(psiFile);
@@ -77,7 +77,10 @@ public class ExecuteScriptAction extends AnAction {
      * @author zongf
      * @created 2019-08-06
      */
-    private JBTerminalPanel getLastedTerminalPanel(ToolWindow terminalToolWindow, AnActionEvent anAction) {
+    private JBTerminalPanel getLastedTerminalPanel(PsiFile psiFile, ToolWindow terminalToolWindow, AnActionEvent anAction) {
+        // 获取脚本名称
+        String scriptName = StringUtil.subStringAfterLast(psiFile.getVirtualFile().getCanonicalPath(), "/");
+
         JBTerminalPanel terminalPanel = null;
         JComponent root = terminalToolWindow.getComponent();
         JComponent jPanel = (JComponent) root.getComponent(0);
@@ -92,7 +95,7 @@ public class ExecuteScriptAction extends AnAction {
             JBTabs jbTabs = (JBTabs) jPanel5;
             // 获取选中的Table
             TabInfo tableInfo = ((JBTabs) jPanel5).getTabAt(((JBTabs) jPanel5).getTabCount()-1);
-            TabInfo targetInfo = jbTabs.getTargetInfo();
+            tableInfo.setText(getTabName(jbTabs, scriptName));
             JBTerminalWidget component = (JBTerminalWidget) tableInfo.getComponent();
             terminalPanel = (JBTerminalPanel) component.getTerminalPanel();
         } else {
@@ -100,5 +103,29 @@ public class ExecuteScriptAction extends AnAction {
             terminalPanel = (JBTerminalPanel) (jPanel6.getComponent(0));
         }
         return terminalPanel;
+    }
+
+    /** 获取Tab 标签名称
+     * @param jbTabs Tab 页列表
+     * @param scriptName 脚本名称
+     * @return String
+     * @since 1.0
+     * @author zongf
+     * @created 2019-08-07
+     */
+    private String getTabName(JBTabs jbTabs, String scriptName) {
+
+        // 倒序遍历当前tab
+        for (int i = jbTabs.getTabCount() -1; i > 0; i--) {
+            // 获取当前Tab名称
+            String tabName = jbTabs.getTabAt(i).getText();
+            if (tabName.equals(scriptName)) {
+                return scriptName + "(" + 1 + ")";
+            }else if(tabName.contains(scriptName + "(")){
+                String num = StringUtil.subStringBetween(tabName, "(", ")");
+                return scriptName + "(" + (Integer.valueOf(num) + 1) + ")";
+            }
+        }
+        return scriptName;
     }
 }
