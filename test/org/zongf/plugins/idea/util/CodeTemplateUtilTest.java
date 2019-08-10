@@ -1,5 +1,7 @@
 package org.zongf.plugins.idea.util;
 
+import org.junit.Test;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -34,11 +36,19 @@ public class CodeTemplateUtilTest {
         System.out.println(content);
 
     }
+
+    public static void test_dependence(){
+        String mvnDependence = CodeTemplateUtil.getMvnDependence("druid", "druid", "2.0.0");
+        System.out.println(mvnDependence);
+    }
     public static void main(String[] args) {
 //        test_getBasicCode();
-        test_addMethodComments();
 
-        System.out.println("public String sayHellO(String name, String wel) {".length());
+//        test_addMethodComments();
+
+        test_dependence();
 
     }
+
+
 }
