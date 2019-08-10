@@ -42,7 +42,7 @@ public class MvnSearchUtil {
     private static Document getHtmlDocument(String url) {
         Document document = null;
         try {
-            document = Jsoup.parse(new URL(url), 3000);
+            document = Jsoup.parse(new URL(url), 12000);
         } catch (IOException e) {
             throw new RuntimeException("网络错误", e);
         } catch (Exception e) {

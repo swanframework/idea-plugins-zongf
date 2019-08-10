@@ -109,9 +109,9 @@ public class CodeTemplateUtil {
      */
     public static String getMvnDependence(String groupId, String artifactId, String version) {
         Map<String,String> root = new HashMap<>();
-        root.put("groupId", groupId);
-        root.put("artifactId", artifactId);
-        root.put("version", version);
+        root.put("groupId", groupId.trim());
+        root.put("artifactId", artifactId.trim());
+        root.put("version", version.trim());
         return getTemplate("dependence.ftl", root);
     }
 }
