@@ -1,7 +1,7 @@
 package org.zongf.plugins.idea.ui;
 
 import org.zongf.plugins.idea.cache.MvnVersionResultCache;
-import org.zongf.plugins.idea.util.MvnUtil;
+import org.zongf.plugins.idea.util.MvnSearchUtil;
 import org.zongf.plugins.idea.vo.SearchResult;
 import org.zongf.plugins.idea.vo.VersionResult;
 
@@ -77,7 +77,7 @@ public class MvnSearchDialog extends JDialog {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    List<SearchResult> searchResultList = MvnUtil.multiSearch(searchEdTxt.getText());
+                    List<SearchResult> searchResultList = MvnSearchUtil.multiSearch(searchEdTxt.getText());
                     doSearch(searchResultList);
                     searchResultTable.setVisible(false);
                     searchResultTable.setVisible(true);
@@ -119,7 +119,7 @@ public class MvnSearchDialog extends JDialog {
         List<VersionResult> versionResults = MvnVersionResultCache.getInstance().get(key);
 
         if (versionResults == null) {
-            versionResults = MvnUtil.queryVersions(groupId, artifactId);
+            versionResults = MvnSearchUtil.queryVersions(groupId, artifactId);
             MvnVersionResultCache.getInstance().set(key, versionResults);
         }
 
@@ -129,7 +129,7 @@ public class MvnSearchDialog extends JDialog {
     // 初始化页面不自动生成的组件方法
     private void createUIComponents() {
 
-        List<SearchResult> searchResultList = MvnUtil.queryIndex();
+        List<SearchResult> searchResultList = MvnSearchUtil.queryIndex();
         doSearch(searchResultList);
 
 
