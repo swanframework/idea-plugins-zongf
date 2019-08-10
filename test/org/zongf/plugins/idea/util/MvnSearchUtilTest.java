@@ -7,14 +7,14 @@ import org.zongf.plugins.idea.vo.VersionResult;
 import java.util.List;
 
 
-public class MvnUtilTest {
+public class MvnSearchUtilTest {
 
 
     // 测试搜索包
     @Test
     public void test_search() throws Exception{
 
-        List<SearchResult> results = MvnUtil.search("spring", 1);
+        List<SearchResult> results = MvnSearchUtil.search("spring", 1);
 
         results.forEach(System.out::println);
     }
@@ -23,11 +23,7 @@ public class MvnUtilTest {
     @Test
     public void test_version() throws Exception{
 
-        SearchResult searchResult = new SearchResult();
-        searchResult.setGroupId("org.springframework");
-        searchResult.setArtifactId("spring-beans");
-
-        List<VersionResult> versionResults = MvnUtil.queryVersions(searchResult);
+        List<VersionResult> versionResults = MvnSearchUtil.queryVersions("org.springframework", "spring-beans");
         versionResults.forEach(System.out::println);
     }
 }
