@@ -13,6 +13,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 
@@ -60,7 +61,10 @@ public class MvnSearchDialog extends JDialog {
         setContentPane(contentPane);
 
         // 设置对话框宽度和高度
-        setBounds(100, 100, 1000, 445);
+        setBounds(new Rectangle(1000, 445));
+
+        // 设置居中, 必须在setBounds 之后调用
+        setLocationRelativeTo(null);
 
         // 设置对话框为模态对话框
         setModal(true);
