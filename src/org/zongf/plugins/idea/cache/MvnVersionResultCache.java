@@ -27,12 +27,10 @@ public class MvnVersionResultCache implements ICache<String, List<VersionResult>
     @Override
     public void set(String key,  List<VersionResult> versionResultList) {
         dataMap.put(key, versionResultList);
-        System.out.println("设置缓存:" + key);
     }
 
     @Override
     public  List<VersionResult> get(String key) {
-        System.out.println("查询缓存:" + key);
         return dataMap.get(key);
     }
 
