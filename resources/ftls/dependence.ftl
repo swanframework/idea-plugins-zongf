@@ -1,6 +1,6 @@
 
-    <dependency>
-        <groupId>${groupId}</groupId>
-        <artifactId>${artifactId}</artifactId>
-        <version>${version}</version>
-    </dependency>
+        <dependency>
+            <groupId>${groupId}</groupId>
+            <artifactId>${artifactId}</artifactId>
+            <version>${version}</version>
+        </dependency>
