@@ -56,12 +56,43 @@ public class MvnVersionResultParser implements IJSoupParser<List<VersionResult>>
                 versionResult.setUsages(tds.get(size-2).text());
                 versionResult.setPublishDate(this.convertDate(tds.get(size-1).text()));
 
+                // 当显示不全时
+                if (versionResult.getVersion().contains("...")) {
+                    fixedFullVersion(tds.get(size - 4), versionResult);
+                }
+
                 versionList.add(versionResult);
             }
 
         }
         return versionList;
     }
+
+
+    /** 当版本号显示不全时，补全版本号
+     * @param versionTd 版本号Td 元素
+     * @since 1.0
+     * @author zongf
+     * @created 2019-08-10
+     */
+    private void fixedFullVersion(Element versionTd, VersionResult versionResult) {
+        // 获取a标签
+        Elements versionAs = versionTd.getElementsByTag("a");
+
+        if (versionAs.size() > 0) {
+            // 获取a标签的链接地址
+            String href = versionAs.get(0).attr("href");
+
+            // 如果a标签不为空
+            if (href != null) {
+                String[] split = href.split("/");
+                if (split.length == 2) {
+                    versionResult.setVersion(split[1]);
+                }
+            }
+        }
+    }
+
 
     /** 转换日期格式
      * @since 1.0
