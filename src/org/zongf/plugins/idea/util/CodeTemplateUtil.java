@@ -97,4 +97,21 @@ public class CodeTemplateUtil {
         root.put("date", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now()));
         return getTemplate(templatePath, root);
     }
+
+    /** 获取maven 依赖模板
+     * @param groupId  组织id
+     * @param artifactId  模块儿id
+     * @param version 版本号
+     * @return String
+     * @since 1.0
+     * @author zongf
+     * @created 2019-08-10
+     */
+    public static String getMvnDependence(String groupId, String artifactId, String version) {
+        Map<String,String> root = new HashMap<>();
+        root.put("groupId", groupId);
+        root.put("artifactId", artifactId);
+        root.put("version", version);
+        return getTemplate("dependence.ftl", root);
+    }
 }
