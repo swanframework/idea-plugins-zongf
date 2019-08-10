@@ -81,7 +81,7 @@
               </grid>
             </constraints>
             <properties>
-              <resizeWeight value="0.8"/>
+              <resizeWeight value="0.85"/>
             </properties>
             <border type="none"/>
             <children>
