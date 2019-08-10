@@ -47,7 +47,9 @@ public class MvnSearchResultParser implements IJSoupParser<List<SearchResult>> {
             // 解析描述信息
             this.parseDesc(imDiv, searchResult);
 
-            list.add(searchResult);
+            if (searchResult.getTitle() != null && !"".equals(searchResult.getTitle())){
+                list.add(searchResult);
+            }
         }
 
 
