@@ -42,7 +42,10 @@ public class MvnSearchDialog extends JDialog {
 
     // 表格标题与数据
     private static String[] tableTitles = new String[]{"name", "groupId", "artifactId", "useages"};
-    private static String[][] tableData = new String[20][4];
+    private static final int tableRows = 20;
+    private static final int tableCols = 4;
+    private static String[][] tableData = new String[tableRows][tableCols];
+
 
     // 是否是测试
     private static boolean isMock = false;
@@ -99,6 +102,7 @@ public class MvnSearchDialog extends JDialog {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    clearData();
                     List<SearchResult> searchResultList = MvnSearchUtil.search(searchEdTxt.getText());
                     initTableData(searchResultList);
                     searchResultTable.setVisible(false);
@@ -202,6 +206,23 @@ public class MvnSearchDialog extends JDialog {
             row[3] = searchResult.getUseages();
             tableData[i] = row;
         }
+    }
+
+    /** 清理表格
+     * @since 1.0
+     * @author zongf
+     * @created 2019-08-10
+     */
+    private void clearData() {
+        // 清理表格
+        for (int i = 0; i < tableRows; i++) {
+            for (int j = 0; j < tableCols; j++) {
+                tableData[i][j] = "";
+            }
+        }
+
+        // 清理版本号
+        versionList.setModel(new DefaultListModel());
     }
 
 
