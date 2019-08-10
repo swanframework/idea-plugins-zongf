@@ -114,9 +114,14 @@ public class MvnSearchUtil {
 
         // 查询两页数据
         List<SearchResult> listPage1 = MvnSearchUtil.search(key, 1);
-        List<SearchResult> listPage2 = MvnSearchUtil.search(key, 2);
+
+        // 当查询结果大于10页数据时，才查第二页
+        if (listPage1.size() >= 10) {
+            List<SearchResult> listPage2 = MvnSearchUtil.search(key, 2);
+            multiList.addAll(listPage2);
+        }
+
         multiList.addAll(listPage1);
-        multiList.addAll(listPage2);
         return multiList;
     }
 
