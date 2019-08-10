@@ -10,6 +10,7 @@ import org.zongf.plugins.idea.vo.VersionResult;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,9 +64,6 @@ public class MvnSearchUtil {
         // 解析文档
         List<SearchResult> resultList = new MvnSearchResultParser().parser(htmlDocument);
 
-        // 异步加载数据
-        loadVersions(resultList);
-
         return resultList;
     }
 
@@ -98,9 +96,28 @@ public class MvnSearchUtil {
         List<SearchResult> resultList = new MvnSearchResultParser().parser(htmlDocument);
 
         // 异步加载数据
-        loadVersions(resultList);
+        loadVersionsAnsy(resultList);
 
         return resultList;
+    }
+
+    /** 默认查询, 查询20条数据
+     * @param key 关键字
+     * @return List<SearchResult>
+     * @since 1.0
+     * @author zongf
+     * @created 2019-08-10
+     */
+    public static List<SearchResult> search(String key) {
+
+        List<SearchResult> multiList = new ArrayList<>();
+
+        // 查询两页数据
+        List<SearchResult> listPage1 = MvnSearchUtil.search(key, 1);
+        List<SearchResult> listPage2 = MvnSearchUtil.search(key, 2);
+        multiList.addAll(listPage1);
+        multiList.addAll(listPage2);
+        return multiList;
     }
 
     /** 查询版本号列表
@@ -121,17 +138,12 @@ public class MvnSearchUtil {
         return new MvnVersionResultParser().parser(document);
     }
 
-
-    public static List<SearchResult> multiSearch(String key) {
-
-        // 查询两页数据
-        List<SearchResult> list = MvnSearchUtil.search(key, 1);
-        List<SearchResult> list2 = MvnSearchUtil.search(key, 2);
-        list.addAll(list2);
-        return list;
-    }
-
-    public static void loadVersions(List<SearchResult> searchResults){
+    /** 异步加载版本号数据 //TODO 优化为多线程
+     * @since 1.0
+     * @author zongf
+     * @created 2019-08-10
+     */
+    public static void loadVersionsAnsy(List<SearchResult> searchResults){
         new Thread(() -> {
             for (SearchResult searchResult : searchResults) {
                 List<VersionResult> versionResults = queryVersions(searchResult.getGroupId(), searchResult.getArtifactId());
@@ -140,7 +152,6 @@ public class MvnSearchUtil {
             }
 
         }).start();
-
     }
 
 }

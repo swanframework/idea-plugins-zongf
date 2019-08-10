@@ -95,7 +95,7 @@ public class MvnSearchDialog extends JDialog {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    List<SearchResult> searchResultList = MvnSearchUtil.multiSearch(searchEdTxt.getText());
+                    List<SearchResult> searchResultList = MvnSearchUtil.search(searchEdTxt.getText());
                     initTableData(searchResultList);
                     searchResultTable.setVisible(false);
                     searchResultTable.setVisible(true);
