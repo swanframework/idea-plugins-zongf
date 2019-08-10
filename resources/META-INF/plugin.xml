@@ -120,9 +120,26 @@
     </action>
 
 
-
-
     <!--************************** 鼠标右键菜单-第4组 zongf-run ******************************************** -->
+    <group id="zongfMvn" text="zongf-mvn" popup="true" >
+      <!-- 添加到右键菜单 -->
+      <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="zongfCopy" />
+      <!-- 添加到顶部菜单 -->
+      <add-to-group group-id="zongfMenu" anchor="last"  />
+      <!-- 添加到项目右键菜单中 -->
+      <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
+    </group>
+
+    <!-- 自定义按钮: 复制引用至剪切板, 使用简单类名 -->
+    <action id="org.zongf.plugins.idea.action.mvn.MvnSearchAction"
+            class="org.zongf.plugins.idea.action.mvn.MvnSearchAction"
+            text="Search Dependence">
+      <!-- 添加到自定义组中-->
+      <add-to-group group-id="zongfMvn"/>
+    </action>
+
+
+    <!--************************** 鼠标右键菜单-第5组 zongf-run ******************************************** -->
     <group id="zongfRun" text="zongf-run" popup="true" >
       <!-- 添加到右键菜单 -->
       <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="zongfCopy" />
@@ -176,6 +193,8 @@
       <!-- 添加到自定义组中-->
       <add-to-group group-id="workMenu"/>
     </action>
+
+
 
 
   </actions>
