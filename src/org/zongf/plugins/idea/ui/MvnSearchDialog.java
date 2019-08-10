@@ -173,7 +173,7 @@ public class MvnSearchDialog extends JDialog {
 
         // 获取版本列表中选中的行
         String selectedValue = (String) versionList.getSelectedValue();
-        String version = selectedValue.split(":")[0];
+        String version = selectedValue.split(":")[1];
 
         // 生成代码
         String dependence = CodeTemplateUtil.getMvnDependence(groupId, artifactId, version);
@@ -267,7 +267,7 @@ public class MvnSearchDialog extends JDialog {
                 // 创建列表数据
                 DefaultListModel<Object> modeList = new DefaultListModel<>();
                 for (VersionResult versionResult : versionResults) {
-                    String str = versionResult.getVersion() + " : " + versionResult.getPublishDate();
+                    String str = versionResult.getPublishDate() + ":  " + versionResult.getVersion();
                     modeList.addElement(new JLabel(str).getText());
                 }
 
@@ -281,5 +281,6 @@ public class MvnSearchDialog extends JDialog {
         cr.setHorizontalAlignment(JLabel.CENTER);
         searchResultTable.getColumn("useages").setCellRenderer(cr);
     }
+
 
 }
