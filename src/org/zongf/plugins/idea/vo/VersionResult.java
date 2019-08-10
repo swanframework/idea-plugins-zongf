@@ -7,8 +7,6 @@ package org.zongf.plugins.idea.vo;
  */
 public class VersionResult {
 
-	private String mainVersion;
-
     // 版本号
     private String version;
 
@@ -25,22 +23,13 @@ public class VersionResult {
         super();
     }
 
-	public VersionResult(String mainVersion, String version, String publishDate, String Usages, String repository) {
+	public VersionResult(String version, String publishDate, String Usages, String repository) {
         super();
-		this.mainVersion = mainVersion;
 		this.version = version;
 		this.publishDate = publishDate;
 		this.Usages = Usages;
 		this.repository = repository;
     }
-
-    public void setMainVersion(String mainVersion){
-		this.mainVersion=mainVersion;
-	}
-
-	public String getMainVersion(){
-		return this.mainVersion;
-	}
 
     public void setVersion(String version){
 		this.version=version;
@@ -75,7 +64,7 @@ public class VersionResult {
 	}
 
     public String toString() {
-		return getClass().getSimpleName() + "@" + hashCode() + ": {mainVersion:" + mainVersion + ", version:" + version + ", publishDate:" + publishDate + ", Usages:" + Usages + ", repository:" + repository  + "}";
+		return getClass().getSimpleName() + "@" + hashCode() + ": {version:" + version + ", publishDate:" + publishDate + ", Usages:" + Usages + ", repository:" + repository  + "}";
 	}
 
 }
