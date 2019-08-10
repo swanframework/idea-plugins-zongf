@@ -39,21 +39,26 @@ public class MvnVersionResultParser implements IJSoupParser<List<VersionResult>>
         // 遍历tbody
         for (Element tbody : tbodys) {
 
-            // 获取tbody 元素中的<td>
-            Elements tds = tbody.getElementsByTag("td");
+            // 获取所有的td
+            Elements trs = tbody.getElementsByTag("tr");
 
-            if (tds.size() >= 5) {
+            for (Element tr : trs) {
+                // 获取tbody 元素中的<td>
+                Elements tds = tr.getElementsByTag("td");
+
+                int size = tds.size();
+
                 VersionResult versionResult = new VersionResult();
 
-                // 解析值
-                versionResult.setMainVersion(tds.get(0).text());
-                versionResult.setVersion(tds.get(1).text());
-                versionResult.setRepository(tds.get(2).text());
-                versionResult.setUsages(tds.get(3).text());
-                versionResult.setPublishDate(this.convertDate(tds.get(4).text()));
+                // td 有四列的，有五列的，五列的第一列是主版本号
+                versionResult.setVersion(tds.get(size-4).text());
+                versionResult.setRepository(tds.get(size-3).text());
+                versionResult.setUsages(tds.get(size-2).text());
+                versionResult.setPublishDate(this.convertDate(tds.get(size-1).text()));
 
                 versionList.add(versionResult);
             }
+
         }
         return versionList;
     }
