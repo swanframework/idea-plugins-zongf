@@ -3,6 +3,7 @@ package org.zongf.plugins.idea.parser.impl;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.zongf.plugins.idea.parser.api.IJSoupParser;
+import org.zongf.plugins.idea.util.common.StringUtil;
 import org.zongf.plugins.idea.vo.VersionResult;
 
 import java.text.ParseException;
@@ -55,6 +56,11 @@ public class MvnVersionResultParser implements IJSoupParser<List<VersionResult>>
                 versionResult.setRepository(tds.get(size-3).text());
                 versionResult.setUsages(tds.get(size-2).text());
                 versionResult.setPublishDate(this.convertDate(tds.get(size-1).text()));
+
+                // 访问数中可能包含逗号,
+                if (!StringUtil.isEmpty(versionResult.getUsages())) {
+                    versionResult.setUsages(versionResult.getUsages().replace(",", ""));
+                }
 
                 // 当显示不全时
                 if (versionResult.getVersion().contains("...")) {
