@@ -121,7 +121,9 @@
                 <children>
                   <component id="7e429" class="javax.swing.JList" binding="versionList">
                     <constraints/>
-                    <properties/>
+                    <properties>
+                      <font name="Dialog" size="12"/>
+                    </properties>
                   </component>
                 </children>
               </scrollpane>
