@@ -89,15 +89,7 @@ public class MvnSearchUtil {
         List<SearchResult> searchResultList = new MvnSearchResultParser().parser(htmlDocument);
 
         // 异步加载数据
-        new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                    long start = System.currentTimeMillis();
-                    MultiThreadUtil.execute(MvnSearchUtil::queryVersions, searchResultList);
-                    System.out.println("versions cost: " + (System.currentTimeMillis() - start));
-            }
-        }.start();
+//        MultiThreadUtil.execute(MvnSearchUtil::queryVersions, searchResultList);
 
         return searchResultList;
     }
