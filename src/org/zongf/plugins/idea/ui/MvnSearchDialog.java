@@ -87,8 +87,6 @@ public class MvnSearchDialog extends JDialog {
         // 设置只可单行选中
         versionList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-        descLb.setText("asdfsadfsdsdfsdfasdasdfasdfasdfasdfasdfa");
-
         // 设置关闭窗口时执行的方法
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -164,10 +162,24 @@ public class MvnSearchDialog extends JDialog {
             public void valueChanged(ListSelectionEvent e) {
 
                 int selectedIndex = versionList.getSelectedIndex();
-                if (selectedIndex >= 0) {
+                if (selectedIndex >= 0) { // 选中
+                    // 设置按钮可点击
                     addBtn.setEnabled(true);
                     copyBtn.setEnabled(true);
-                }else {
+
+                    // 获取选中的内容
+                    VersionResult versionResult = versionResultList.get(selectedIndex);
+
+                    // 拼接描述信息
+                    StringBuffer sb = new StringBuffer();
+                    sb.append("Version: ").append(versionResult.getVersion()).append(",   ")
+                      .append("Useage: ").append(versionResult.getUsages()).append(",   ")
+                      .append("Publish Date: ").append(versionResult.getPublishDate());
+
+                    // 设置描述信息
+                    descLb.setText(sb.toString());
+
+                }else { // 未选中
                     addBtn.setEnabled(false);
                     copyBtn.setEnabled(false);
                 }
@@ -299,22 +311,13 @@ public class MvnSearchDialog extends JDialog {
                 // 设置选中文字
                 searchEdTxt.setText(searchResult.getTitle());
 
-                // 获取版本号
-                List<VersionResult> versionResults = getVersion(searchResult.getGroupId(), searchResult.getArtifactId());
-
                 // 设置描述信息
                 String description = searchResult.getLastDate() + ":  " + StringFormatUtil.hideOverride(searchResult.getDescription(), 90) ;
                 descLb.setText(description);
 
-                // 创建列表数据
-                DefaultListModel<Object> modeList = new DefaultListModel<>();
-                for (VersionResult versionResult : versionResults) {
-                    String str = versionResult.getPublishDate() + ":  " + versionResult.getVersion();
-                    modeList.addElement(new JLabel(str).getText());
-                }
+                // 刷新版本列表
+                refreshVersionList(searchResult);
 
-                // 刷新列表
-                versionList.setModel(modeList);
             }
         };
 
@@ -324,5 +327,27 @@ public class MvnSearchDialog extends JDialog {
         searchResultTable.getColumn("useages").setCellRenderer(cr);
     }
 
+    /** 刷新版本列表
+     * @param searchResult
+     * @since 1.0
+     * @author zongf
+     * @created 2019-08-11
+     */
+    private void refreshVersionList(SearchResult searchResult){
+        // 获取版本号
+        List<VersionResult> versionResults = getVersion(searchResult.getGroupId(), searchResult.getArtifactId());
+        // 创建列表数据
+        DefaultListModel<Object> modeList = new DefaultListModel<>();
+        for (VersionResult versionResult : versionResults) {
+            String useage = versionResult.getUsages();
+            if(useage.length() ==1) useage = "    " + useage;
+            if(useage.length() ==2) useage = "  " + useage;
+            String str = versionResult.getPublishDate()+ " : " + useage + " : " + versionResult.getVersion() ;
+            modeList.addElement(new JLabel(str).getText());
+        }
+
+        // 刷新列表
+        versionList.setModel(modeList);
+    }
 
 }
