@@ -44,6 +44,7 @@ public class MvnSearchUtil {
     private static Document getHtmlDocument(String url) {
         Document document = null;
         try {
+            System.out.println("访问网址:" + url);
             document = Jsoup.parse(new URL(url), 12000);
         } catch (IOException e) {
             throw new RuntimeException("网络错误", e);
@@ -94,6 +95,13 @@ public class MvnSearchUtil {
         return searchResultList;
     }
 
+    /** 通过关键字搜索
+     * @param key 关键字
+     * @return List<SearchResult>
+     * @since 1.0
+     * @author zongf
+     * @created 2019-08-11
+     */
     public static List<SearchResult> searchByKey(String key) {
 
         // 查询地址
