@@ -166,11 +166,10 @@ public class MvnSearchUtil {
         // 格式化版本号
         for (VersionResult versionResult : versionResultList) {
             if (!StringUtil.isEmpty(versionResult.getUsages())) {
-                StringBuffer sb = new StringBuffer();
+                StringBuffer sb = new StringBuffer(versionResult.getUsages());
                 for (int i = 0; i < maxLength - versionResult.getUsages().length(); i++) {
                     sb.append(" ");
                 }
-                sb.append(versionResult.getUsages());
                 versionResult.setUsages(sb.toString());
             }
         }

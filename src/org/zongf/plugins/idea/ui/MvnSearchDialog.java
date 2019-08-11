@@ -312,10 +312,7 @@ public class MvnSearchDialog extends JDialog {
         // 创建列表数据
         DefaultListModel<Object> modeList = new DefaultListModel<>();
         for (VersionResult versionResult : versionResultList) {
-            String useage = versionResult.getUsages();
-            if(useage.length() ==1) useage = "    " + useage;
-            if(useage.length() ==2) useage = "  " + useage;
-            String str = versionResult.getPublishDate()+ " : " + useage + " : " + versionResult.getVersion() ;
+            String str = versionResult.getPublishDate()+ ":" + versionResult.getUsages() + ":" + versionResult.getVersion() ;
             modeList.addElement(new JLabel(str).getText());
         }
 
