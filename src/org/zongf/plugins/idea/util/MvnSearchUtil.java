@@ -2,9 +2,10 @@ package org.zongf.plugins.idea.util;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.zongf.plugins.idea.cache.MvnVersionResultCache;
 import org.zongf.plugins.idea.parser.impl.MvnSearchResultParser;
 import org.zongf.plugins.idea.parser.impl.MvnVersionResultParser;
+import org.zongf.plugins.idea.util.common.MultiThreadUtil;
+import org.zongf.plugins.idea.util.common.StringUtil;
 import org.zongf.plugins.idea.vo.SearchResult;
 import org.zongf.plugins.idea.vo.VersionResult;
 
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Description:
@@ -51,77 +53,72 @@ public class MvnSearchUtil {
         return document;
     }
 
-    /** 获取首页列表
+    /** 获取搜索url地址
+     * @param key 关键字
+     * @param page 页数
+     * @return String
      * @since 1.0
      * @author zongf
-     * @created 2019-08-10
+     * @created 2019-08-11
      */
-    public static List<SearchResult> queryIndex() {
+    private static String getSearchUrl(String key, int page) {
 
-        // 请求网络，并将响应解析为文档
-        Document htmlDocument = getHtmlDocument(URL_BASE);
+        // 如果没有查询关键字, 则直接查询首页
+        if(StringUtil.isEmpty(key)) return URL_BASE;
 
-        // 解析文档
-        List<SearchResult> resultList = new MvnSearchResultParser().parser(htmlDocument);
+        // 拼接请求地址
+        String url = URL_SEARCH + "?p=" + page + "&q=" + key;
 
-        return resultList;
+        // 替换所有空格为+ 号
+        return url.replaceAll(" ", "+");
     }
 
-
-    /** 模糊搜索
-     * @param key 关键字
-     * @param page 页码
+    /** 默认查询, 查询20条数据
+     * @param url 查询地址
      * @return List<SearchResult>
      * @since 1.0
      * @author zongf
      * @created 2019-08-10
      */
-    public static List<SearchResult> search(String key, int page) {
-
-        // 拼接请求地址
-        String url = URL_SEARCH + "?p=" + page + "&q=" + key;
-
-        if (key != null && !"".equals(key.trim())) {
-            url = url + "&q=" + key;
-        }
-
-        url = url.replaceAll(" ", "+");
-
-        System.out.println(url);
+    private static List<SearchResult> searchByUrl(String url) {
 
         // 请求网络，并将响应解析为文档
         Document htmlDocument = getHtmlDocument(url);
 
         // 解析文档
-        List<SearchResult> resultList = new MvnSearchResultParser().parser(htmlDocument);
+        List<SearchResult> searchResultList = new MvnSearchResultParser().parser(htmlDocument);
 
         // 异步加载数据
-        loadVersionsAnsy(resultList);
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                    long start = System.currentTimeMillis();
+                    MultiThreadUtil.execute(MvnSearchUtil::queryVersions, searchResultList);
+                    System.out.println("versions cost: " + (System.currentTimeMillis() - start));
+            }
+        }.start();
 
-        return resultList;
+        return searchResultList;
     }
 
-    /** 默认查询, 查询20条数据
-     * @param key 关键字
-     * @return List<SearchResult>
-     * @since 1.0
-     * @author zongf
-     * @created 2019-08-10
-     */
-    public static List<SearchResult> search(String key) {
+    public static List<SearchResult> searchByKey(String key) {
 
-        List<SearchResult> multiList = new ArrayList<>();
+        // 查询地址
+        List<String> urlList = new ArrayList<>();
+        urlList.add(getSearchUrl(key, 1));
 
-        // 查询两页数据
-        List<SearchResult> listPage1 = MvnSearchUtil.search(key, 1);
-
-        // 当查询结果大于10页数据时，才查第二页
-        if (listPage1.size() >= 10) {
-            List<SearchResult> listPage2 = MvnSearchUtil.search(key, 2);
-            multiList.addAll(listPage2);
+        // 如果key不为空, 则查询2页数据
+        if (!StringUtil.isEmpty(key)) {
+            urlList.add(getSearchUrl(key, 2));
         }
 
-        multiList.addAll(listPage1);
+        // 多线程执行两次查询
+        List<List<SearchResult>> resultList = MultiThreadUtil.callable(MvnSearchUtil::searchByUrl, urlList);
+
+        // 合并结果
+        List<SearchResult> multiList = resultList.stream().flatMap(List::stream).collect(Collectors.toList());
+
         return multiList;
     }
 
@@ -131,10 +128,10 @@ public class MvnSearchUtil {
      * @author zongf
      * @created 2019-08-10
      */
-    public static List<VersionResult> queryVersions(String groupId, String artifactId) {
+    public static List<VersionResult> queryVersions(SearchResult searchResult) {
 
         // 拼接请求地址
-        String url = URL_VERSIONS + "/" + groupId + "/" + artifactId;
+        String url = URL_VERSIONS + "/" + searchResult.getGroupId() + "/" + searchResult.getArtifactId();
 
         // 请求网络，并将响应解析为文档
         Document document = getHtmlDocument(url);
@@ -142,21 +139,4 @@ public class MvnSearchUtil {
         // 解析文档
         return new MvnVersionResultParser().parser(document);
     }
-
-    /** 异步加载版本号数据 //TODO 优化为多线程
-     * @since 1.0
-     * @author zongf
-     * @created 2019-08-10
-     */
-    public static void loadVersionsAnsy(List<SearchResult> searchResults){
-        new Thread(() -> {
-            for (SearchResult searchResult : searchResults) {
-                List<VersionResult> versionResults = queryVersions(searchResult.getGroupId(), searchResult.getArtifactId());
-                String key = searchResult.getGroupId() + ":" + searchResult.getArtifactId();
-                MvnVersionResultCache.getInstance().set(key, versionResults);
-            }
-
-        }).start();
-    }
-
 }
