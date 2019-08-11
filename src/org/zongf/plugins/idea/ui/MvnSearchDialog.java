@@ -110,7 +110,7 @@ public class MvnSearchDialog extends JDialog {
                     // 清空数据
                     clearData();
                     // 查询数据
-                    searchResultList = MvnSearchUtil.search(searchEdTxt.getText());
+                    searchResultList = MvnSearchUtil.searchByKey(searchEdTxt.getText());
                     // 刷新表格数据
                     refreshTableData();
                     // 重新绘制表格
@@ -248,38 +248,11 @@ public class MvnSearchDialog extends JDialog {
         searchEdTxt.grabFocus();
     }
 
-
-
-    /** 获取版本号
-     * @param groupId 组织id
-     * @param artifactId 模块儿id
-     * @return List<VersionResult>
-     * @since 1.0
-     * @author zongf
-     * @created 2019-08-10
-     */
-    private List<VersionResult> getVersion(String groupId, String artifactId){
-
-        // 拼接key
-        String key = groupId + ":" + artifactId;
-
-        // 尝试从缓存中获取
-        versionResultList = MvnVersionResultCache.getInstance().get(key);
-
-        // 缓存中不存在，则发送网络查询
-        if (versionResultList == null) {
-            versionResultList = MvnSearchUtil.queryVersions(groupId, artifactId);
-            MvnVersionResultCache.getInstance().set(key, versionResultList);
-        }
-
-        return versionResultList;
-    }
-
     // 初始化页面不自动生成的组件方法
     private void createUIComponents() {
 
         // 查询数据
-        searchResultList = MvnSearchUtil.queryIndex();
+        searchResultList = MvnSearchUtil.searchByKey(null);
 
         // 刷新列表
         refreshTableData();
@@ -335,7 +308,7 @@ public class MvnSearchDialog extends JDialog {
      */
     private void refreshVersionList(SearchResult searchResult){
         // 获取版本号
-        List<VersionResult> versionResults = getVersion(searchResult.getGroupId(), searchResult.getArtifactId());
+        List<VersionResult> versionResults = MvnVersionResultCache.getInstance().get(searchResult);
         // 创建列表数据
         DefaultListModel<Object> modeList = new DefaultListModel<>();
         for (VersionResult versionResult : versionResults) {
