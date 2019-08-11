@@ -308,10 +308,10 @@ public class MvnSearchDialog extends JDialog {
      */
     private void refreshVersionList(SearchResult searchResult){
         // 获取版本号
-        List<VersionResult> versionResults = MvnVersionResultCache.getInstance().get(searchResult);
+        versionResultList= MvnVersionResultCache.getInstance().get(searchResult);
         // 创建列表数据
         DefaultListModel<Object> modeList = new DefaultListModel<>();
-        for (VersionResult versionResult : versionResults) {
+        for (VersionResult versionResult : versionResultList) {
             String useage = versionResult.getUsages();
             if(useage.length() ==1) useage = "    " + useage;
             if(useage.length() ==2) useage = "  " + useage;
