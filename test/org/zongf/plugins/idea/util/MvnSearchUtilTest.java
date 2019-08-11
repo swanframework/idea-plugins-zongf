@@ -14,16 +14,20 @@ public class MvnSearchUtilTest {
     @Test
     public void test_search() throws Exception{
 
-        List<SearchResult> results = MvnSearchUtil.search("spring", 1);
+        List<SearchResult> searchResultList = MvnSearchUtil.searchByKey("spring");
 
-        results.forEach(System.out::println);
+        searchResultList.forEach(System.out::println);
     }
 
     // 测试搜索版本号
     @Test
     public void test_version() throws Exception{
+//
+        SearchResult searchResult = new SearchResult();
+        searchResult.setGroupId("org.springframework");
+        searchResult.setArtifactId("spring-beans");
 
-        List<VersionResult> versionResults = MvnSearchUtil.queryVersions("org.springframework", "spring-beans");
+        List<VersionResult> versionResults = MvnSearchUtil.queryVersions(searchResult);
         versionResults.forEach(System.out::println);
     }
 }
