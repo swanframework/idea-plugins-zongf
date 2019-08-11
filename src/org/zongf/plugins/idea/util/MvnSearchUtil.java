@@ -137,6 +137,43 @@ public class MvnSearchUtil {
         Document document = getHtmlDocument(url);
 
         // 解析文档
-        return new MvnVersionResultParser().parser(document);
+        List<VersionResult> versionResultList = new MvnVersionResultParser().parser(document);
+
+        // 格式化返回结果
+        formatVersionResult(versionResultList);
+
+        return versionResultList;
+    }
+
+    /** 格式化版本号
+     * @param versionResultList
+     * @since 1.0
+     * @author zongf
+     * @created 2019-08-11
+     */
+    private static void formatVersionResult(List<VersionResult> versionResultList) {
+
+        // 获取最大长度
+        int maxLength = 0;
+        for (VersionResult versionResult : versionResultList) {
+            if (!StringUtil.isEmpty(versionResult.getUsages())) {
+                if (versionResult.getUsages().length() > maxLength) {
+                    maxLength = versionResult.getUsages().length();
+                }
+            }
+        }
+
+        // 格式化版本号
+        for (VersionResult versionResult : versionResultList) {
+            if (!StringUtil.isEmpty(versionResult.getUsages())) {
+                StringBuffer sb = new StringBuffer();
+                for (int i = 0; i < maxLength - versionResult.getUsages().length(); i++) {
+                    sb.append(" ");
+                }
+                sb.append(versionResult.getUsages());
+                versionResult.setUsages(sb.toString());
+            }
+        }
+
     }
 }
