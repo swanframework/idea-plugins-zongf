@@ -4,6 +4,7 @@ import com.intellij.openapi.editor.Editor;
 import org.zongf.plugins.idea.cache.MvnVersionResultCache;
 import org.zongf.plugins.idea.util.CodeTemplateUtil;
 import org.zongf.plugins.idea.util.MvnSearchUtil;
+import org.zongf.plugins.idea.util.common.StringFormatUtil;
 import org.zongf.plugins.idea.util.idea.ClipBoardUtil;
 import org.zongf.plugins.idea.util.idea.EditorUtil;
 import org.zongf.plugins.idea.vo.SearchResult;
@@ -39,12 +40,16 @@ public class MvnSearchDialog extends JDialog {
 
     // 版本号列表
     private JList versionList;
+    private JLabel descLb;
 
     // 表格标题与数据
     private static String[] tableTitles = new String[]{"name", "groupId", "artifactId", "useages"};
     private static final int tableRows = 20;
     private static final int tableCols = 4;
     private static String[][] tableData = new String[tableRows][tableCols];
+
+    private static List<SearchResult> searchResultList = null;
+    private static List<VersionResult> versionResultList = null;
 
 
     // 是否是测试
@@ -64,7 +69,7 @@ public class MvnSearchDialog extends JDialog {
         setContentPane(contentPane);
 
         // 设置对话框宽度和高度
-        setBounds(new Rectangle(1000, 445));
+        setBounds(new Rectangle(1000, 455));
 
         // 设置居中, 必须在setBounds 之后调用
         setLocationRelativeTo(null);
@@ -81,6 +86,8 @@ public class MvnSearchDialog extends JDialog {
 
         // 设置只可单行选中
         versionList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+
+        descLb.setText("asdfsadfsdsdfsdfasdasdfasdfasdfasdfasdfa");
 
         // 设置关闭窗口时执行的方法
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -102,11 +109,14 @@ public class MvnSearchDialog extends JDialog {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    // 清空数据
                     clearData();
-                    List<SearchResult> searchResultList = MvnSearchUtil.search(searchEdTxt.getText());
-                    initTableData(searchResultList);
-                    searchResultTable.setVisible(false);
-                    searchResultTable.setVisible(true);
+                    // 查询数据
+                    searchResultList = MvnSearchUtil.search(searchEdTxt.getText());
+                    // 刷新表格数据
+                    refreshTableData();
+                    // 重新绘制表格
+                    searchResultTable.repaint();
                 }
             }
         });
@@ -148,7 +158,7 @@ public class MvnSearchDialog extends JDialog {
             }
         });
 
-        //
+        // 版本号选择监听
         versionList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -175,30 +185,25 @@ public class MvnSearchDialog extends JDialog {
     private String getSelectDependence() {
 
         // 获取表格中选中的行
-        int selectedRow = searchResultTable.getSelectedRow();
-        String groupId = tableData[selectedRow][1];
-        String artifactId = tableData[selectedRow][2];
+        SearchResult searchResult = searchResultList.get(searchResultTable.getSelectedRow());
 
         // 获取版本列表中选中的行
-        String selectedValue = (String) versionList.getSelectedValue();
-        String version = selectedValue.split(":")[1];
+        VersionResult versionResult = versionResultList.get(versionList.getSelectedIndex());
 
         // 生成代码
-        String dependence = CodeTemplateUtil.getMvnDependence(groupId, artifactId, version);
-        return dependence;
+        return CodeTemplateUtil.getMvnDependence(searchResult.getGroupId(), searchResult.getArtifactId(), versionResult.getVersion());
     }
 
 
     /** 初始化表格数据
-     * @param list
      * @since 1.0
      * @author zongf
      * @created 2019-08-10
      */
-    private void initTableData(List<SearchResult> list) {
+    private void refreshTableData() {
         // 重新初始化表格
-        for (int i = 0; i < list.size() && i < tableData.length; i++) {
-            SearchResult searchResult = list.get(i);
+        for (int i = 0; i < searchResultList.size() && i < tableData.length; i++) {
+            SearchResult searchResult = searchResultList.get(i);
             String[] row = new String[6];
             row[0] = searchResult.getTitle();
             row[1] = searchResult.getGroupId();
@@ -223,6 +228,12 @@ public class MvnSearchDialog extends JDialog {
 
         // 清理版本号
         versionList.setModel(new DefaultListModel());
+
+        // 清理描述信息
+        descLb.setText("");
+
+        // 清楚选中行
+        searchEdTxt.grabFocus();
     }
 
 
@@ -241,23 +252,25 @@ public class MvnSearchDialog extends JDialog {
         String key = groupId + ":" + artifactId;
 
         // 尝试从缓存中获取
-        List<VersionResult> versionResults = MvnVersionResultCache.getInstance().get(key);
+        versionResultList = MvnVersionResultCache.getInstance().get(key);
 
         // 缓存中不存在，则发送网络查询
-        if (versionResults == null) {
-            versionResults = MvnSearchUtil.queryVersions(groupId, artifactId);
-            MvnVersionResultCache.getInstance().set(key, versionResults);
+        if (versionResultList == null) {
+            versionResultList = MvnSearchUtil.queryVersions(groupId, artifactId);
+            MvnVersionResultCache.getInstance().set(key, versionResultList);
         }
 
-        return versionResults;
+        return versionResultList;
     }
 
     // 初始化页面不自动生成的组件方法
     private void createUIComponents() {
 
-        List<SearchResult> searchResultList = MvnSearchUtil.queryIndex();
-        initTableData(searchResultList);
+        // 查询数据
+        searchResultList = MvnSearchUtil.queryIndex();
 
+        // 刷新列表
+        refreshTableData();
 
         // 创建表格
         searchResultTable = new JTable(tableData, tableTitles){
@@ -280,14 +293,18 @@ public class MvnSearchDialog extends JDialog {
             public void valueChanged(ListSelectionEvent e) {
                 super.valueChanged(e);
 
-                // 获取选中行数
-                int row = searchResultTable.getSelectedRow();
+                // 获取选中的数据
+                SearchResult searchResult = searchResultList.get(searchResultTable.getSelectedRow());
 
                 // 设置选中文字
-                searchEdTxt.setText(tableData[row][0]);
+                searchEdTxt.setText(searchResult.getTitle());
 
                 // 获取版本号
-                List<VersionResult> versionResults = getVersion(tableData[row][1], tableData[row][2]);
+                List<VersionResult> versionResults = getVersion(searchResult.getGroupId(), searchResult.getArtifactId());
+
+                // 设置描述信息
+                String description = searchResult.getLastDate() + ":  " + StringFormatUtil.hideOverride(searchResult.getDescription(), 90) ;
+                descLb.setText(description);
 
                 // 创建列表数据
                 DefaultListModel<Object> modeList = new DefaultListModel<>();
