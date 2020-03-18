@@ -43,7 +43,7 @@ public class SpringPropertyLocateAction extends AnAction {
         // 解析属性类java代码
         PropertyInfo propertyInfo = this.parsePropertyClass(psiFile.getText().split("\n"));
 
-        if (propertyInfo != null) {
+        if (StringUtils.isNotEmpty(propertyInfo.sourceFilePath)) {
             // 找到属性配置文件
             VirtualFile propertyFile = findPropertyFile(project, propertyInfo);
 
@@ -71,7 +71,7 @@ public class SpringPropertyLocateAction extends AnAction {
                 Messages.showErrorDialog("配置文件中未找到" + selectedField + "对应的配置项!", "未找到配置项");
             }
         } else {
-            Messages.showErrorDialog("非法的spring属性配置文件", "文件类型错误");
+            Messages.showErrorDialog("@PropertySource 配置不能为空", "非spring属性配置类");
         }
 
 
@@ -160,7 +160,7 @@ public class SpringPropertyLocateAction extends AnAction {
             }
         }
 
-        return info.sourceFilePath != null ? info : null;
+        return info;
     }
 
     private static class PropertyInfo{
