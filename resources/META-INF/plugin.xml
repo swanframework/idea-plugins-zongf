@@ -1,18 +1,18 @@
 <idea-plugin>
   <id>org.zongf.plugins.idea</id>
   <name>zongf idea plugins</name>
-  <version>1.0</version>
+  <version>2.0</version>
   <vendor email="3154007684@qq.com" url="">zongf</vendor>
 
   <description><![CDATA[
     <h3>zongf's idea plugins</h3><br>
      <ul>
-        <li>代码格式化:整个文件或选中行代码</li>
-        <li>自动生成 constructor, settter,getter,toString</li>
-        <li>修复自动导入类</li>
-        <li>复制引用至剪切板功能</li>
-        <li>优化代码中多行空白行为一行</li>
-        <li>unicode 属性文件转换为可读文件</li>
+        <li>自动生成方法注释</li>
+        <li>自动生成枚举属性</li>
+        <li>定位spring属性文件</li>
+        <li>自动生成基础方法</li>
+        <li>优化代码多行空行</li>
+        <li>搜索maven依赖</li>
       </ul>
   ]]></description>
 
@@ -29,8 +29,6 @@
     <group id="zongf" text="zongf" popup="true" >
       <!-- 添加到右键菜单 -->
       <add-to-group group-id="EditorPopupMenu" anchor="first" />
-      <!-- 添加到顶部菜单 -->
-      <add-to-group group-id="zongf" anchor="last"  />
     </group>
 
     <!-- 生成方法注释 -->
@@ -38,14 +36,6 @@
             class="org.zongf.plugins.idea.action.work.AddMethodCommentAction"
             text="Add Method Comments">
       <!-- 指定快捷键 <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt 0"/>-->
-      <!-- 添加到自定义组中-->
-      <add-to-group group-id="zongf"/>
-    </action>
-
-    <!-- 自定义按钮: 生成基础方法 -->
-    <action id="org.zongf.plugins.idea.action.generate.GenerateBasicMethodsAction"
-            class="org.zongf.plugins.idea.action.generate.GenerateBasicMethodsAction"
-            text="Generate Basic Methods">
       <!-- 添加到自定义组中-->
       <add-to-group group-id="zongf"/>
     </action>
@@ -62,6 +52,14 @@
     <action id="org.zongf.plugins.idea.action.spring.SpringPropertyLocateAction"
             class="org.zongf.plugins.idea.action.spring.SpringPropertyLocateAction"
             text="locate property">
+      <!-- 添加到自定义组中-->
+      <add-to-group group-id="zongf"/>
+    </action>
+
+    <!-- 自定义按钮: 生成基础方法 -->
+    <action id="org.zongf.plugins.idea.action.generate.GenerateBasicMethodsAction"
+            class="org.zongf.plugins.idea.action.generate.GenerateBasicMethodsAction"
+            text="Generate Basic Methods">
       <!-- 添加到自定义组中-->
       <add-to-group group-id="zongf"/>
     </action>
