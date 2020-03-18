@@ -94,7 +94,7 @@ public class CodeTemplateUtil {
         root.put("return", ClassUtil.simpleClassName(result));
         root.put("paramNames", paramNames);
         root.put("indent", indent);
-        root.put("date", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now()));
+        root.put("date", DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()));
         return getTemplate(templatePath, root);
     }
 
