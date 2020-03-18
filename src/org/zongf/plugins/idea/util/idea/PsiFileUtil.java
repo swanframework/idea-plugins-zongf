@@ -27,12 +27,13 @@ public class PsiFileUtil {
         OpenFileDescriptor openFileDescriptor = new OpenFileDescriptor(project, virtualFile);
         Editor editor = FileEditorManager.getInstance(project).openTextEditor(openFileDescriptor, true);
 
-        if(lineNumber == -1) lineNumber = 0;
-
         // 跳转到指定行
         CaretModel caretModel = editor.getCaretModel();
-        LogicalPosition logicalPosition = caretModel.getLogicalPosition();
+        LogicalPosition logicalPosition = editor.getCaretModel().getLogicalPosition();
         logicalPosition.leanForward(true);
+
+        // 取消选中的光标
+        editor.getSelectionModel().removeSelection();
 
         if (lineNumber == -1) {
             // 定位到行
