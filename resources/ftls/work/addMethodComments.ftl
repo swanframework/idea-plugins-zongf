@@ -1,6 +1,5 @@
 
 ${indent}/**
-${indent} * @Description ${''}
 <#list paramNames as paramName>
 ${indent} * @param ${paramName} ${''}
 </#list>
@@ -8,5 +7,5 @@ ${indent} * @param ${paramName} ${''}
 ${indent} * @return ${return} ${''}
 </#if>
 ${indent} * @author zongf
-${indent} * @time ${date}
+${indent} * @date ${date}
 ${indent} */
