@@ -43,32 +43,38 @@ public class SpringPropertyLocateAction extends AnAction {
         // 解析属性类java代码
         PropertyInfo propertyInfo = this.parsePropertyClass(psiFile.getText().split("\n"));
 
-        // 找到属性配置文件
-        VirtualFile propertyFile = findPropertyFile(project, propertyInfo);
+        if (propertyInfo != null) {
+            // 找到属性配置文件
+            VirtualFile propertyFile = findPropertyFile(project, propertyInfo);
 
-        // 获取选择的属性
-        String selectedField = editor.getSelectionModel().getSelectedText();
+            // 获取选择的属性
+            String selectedField = editor.getSelectionModel().getSelectedText();
 
-        int lineNumber = -1;
-        if (StringUtils.isNotEmpty(selectedField)) {
-            // 读取配置文件内容
-            List<String> lines = TxtFileUtil.readFile(propertyFile.getCanonicalPath());
+            int lineNumber = -1;
+            if (StringUtils.isNotEmpty(selectedField)) {
+                // 读取配置文件内容
+                List<String> lines = TxtFileUtil.readFile(propertyFile.getCanonicalPath());
 
-            // 定位行号
-            lineNumber = locateLineNumber(lines, propertyInfo.prefix , selectedField);
-            // 如果定位不到, 则尝试转换匈牙利命名二次查找
-            if (lineNumber == -1) {
-                lineNumber = locateLineNumber(lines, propertyInfo.prefix , NameUtil.hungarian(selectedField));
+                // 定位行号
+                lineNumber = locateLineNumber(lines, propertyInfo.prefix , selectedField);
+                // 如果定位不到, 则尝试转换匈牙利命名二次查找
+                if (lineNumber == -1) {
+                    lineNumber = locateLineNumber(lines, propertyInfo.prefix , NameUtil.hungarian(selectedField));
+                }
             }
+
+            // 打开文件
+            PsiFileUtil.openFile(project, propertyFile, lineNumber);
+
+            // 如果找不到匹配的行, 提示
+            if (selectedField != null && lineNumber == -1) {
+                Messages.showErrorDialog("配置文件中未找到" + selectedField + "对应的配置项!", "未找到配置项");
+            }
+        } else {
+            Messages.showErrorDialog("非法的spring属性配置文件", "文件类型错误");
         }
 
-        // 打开文件
-        PsiFileUtil.openFile(project, propertyFile, lineNumber);
 
-        // 如果找不到匹配的行, 提示
-        if (selectedField != null && lineNumber == -1) {
-            Messages.showErrorDialog("配置文件中未找到" + selectedField + "对应的配置项!", "未找到配置项");
-        }
     }
 
     /** 查找属性文件, 查询不到抛出异常
