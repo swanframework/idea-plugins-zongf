@@ -36,19 +36,18 @@ public class NameUtil {
 
     /** 匈牙利命名
      * @param name 驼峰命名
+     * @param contactChar 连接符
      * @return String
      * @author zongf
      * @date 2020-03-17
      */
-    public static String hungarian(String name){
+    public static String hungarian(String name, char contactChar){
         StringBuilder sb=new StringBuilder(name);
         int temp=0;//定位
-        if (!name.contains("-")) {
-            for(int i=0;i<name.length();i++){
-                if(Character.isUpperCase(name.charAt(i))){
-                    sb.insert(i+temp, "-");
-                    temp+=1;
-                }
+        for(int i=0;i<name.length();i++){
+            if(Character.isUpperCase(name.charAt(i))){
+                sb.insert(i+temp, contactChar);
+                temp+=1;
             }
         }
         return sb.toString().toLowerCase();

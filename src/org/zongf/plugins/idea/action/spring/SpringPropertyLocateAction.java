@@ -59,7 +59,10 @@ public class SpringPropertyLocateAction extends AnAction {
                 lineNumber = locateLineNumber(lines, propertyInfo.prefix , selectedField);
                 // 如果定位不到, 则尝试转换匈牙利命名二次查找
                 if (lineNumber == -1) {
-                    lineNumber = locateLineNumber(lines, propertyInfo.prefix , NameUtil.hungarian(selectedField));
+                    lineNumber = locateLineNumber(lines, propertyInfo.prefix , NameUtil.hungarian(selectedField, '-'));
+                }
+                if (lineNumber == -1) {
+                    lineNumber = locateLineNumber(lines, propertyInfo.prefix , NameUtil.hungarian(selectedField, '_'));
                 }
             }
 
