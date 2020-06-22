@@ -3,6 +3,7 @@ package org.zongf.plugins.idea.action.git;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.PsiFile;
 import org.apache.commons.lang3.StringUtils;
@@ -23,13 +24,14 @@ public class CopyGitImageUrlAction extends AnAction {
 
         // 获取project, psiFile, editor
         PsiFile psiFile =  anActionEvent.getData(PlatformDataKeys.PSI_FILE);
+        Project project = anActionEvent.getData(PlatformDataKeys.PROJECT);
 
         // 如果选中文件为空或目录, 当选中为多个时, 返回空
         if(psiFile== null || psiFile.isDirectory()) return;
 
         // 如果不是图片则直接返回
         List<String> imageSuffix = Arrays.asList(".png", "jpg", "jpeg", "gif");
-        String fileSuffix = psiFile.getName().substring(psiFile.getName().indexOf(".")).toLowerCase();
+        String fileSuffix = StringUtils.substringAfterLast(psiFile.getName(), ".").toLowerCase();
         if (!imageSuffix.contains(fileSuffix)) {
             Messages.showErrorDialog("不支持的图片类型, 仅支持[" + imageSuffix.toString() + "]", "图片类型错误");
             return;
@@ -37,7 +39,7 @@ public class CopyGitImageUrlAction extends AnAction {
 
         // 获取git remote 地址
         List<String> shells = new ArrayList<>();
-        shells.add("cd " + psiFile.getProject().getBasePath());
+        shells.add("cd " + project.getBasePath());
         shells.add("git remote -v");
         List<String> results = ShellUtil.runShell(shells);
 

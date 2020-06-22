@@ -3,8 +3,10 @@ package org.zongf.plugins.idea.action.git;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.PsiFile;
+import org.jetbrains.annotations.SystemIndependent;
 import org.zongf.plugins.idea.util.ShellUtil;
 import org.zongf.plugins.idea.util.idea.ClipBoardUtil;
 
@@ -17,15 +19,16 @@ import java.util.List;
  * @date: 2020-06-22
  */
 public class CopyGitRemoteUrlAction extends AnAction {
+
     @Override
     public void actionPerformed(AnActionEvent anActionEvent) {
 
-        // 获取project, psiFile, editor
-        PsiFile psiFile =  anActionEvent.getData(PlatformDataKeys.PSI_FILE);
+        // 获取当前项目
+        Project project = anActionEvent.getData(PlatformDataKeys.PROJECT);
 
         // 获取git remote 地址
         List<String> shells = new ArrayList<>();
-        shells.add("cd " + psiFile.getProject().getBasePath());
+        shells.add("cd " + project.getBasePath());
         shells.add("git remote -v");
         List<String> results = ShellUtil.runShell(shells);
 
