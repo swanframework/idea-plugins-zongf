@@ -87,9 +87,9 @@
     </group>
 
     <!-- 自定义按钮: 复制引用至剪切板, 使用简单类名 -->
-    <action id="org.zongf.plugins.idea.action.git.CopyGitImageUrlAction"
-            class="org.zongf.plugins.idea.action.git.CopyGitImageUrlAction"
-            text="copy image link url">
+    <action id="org.zongf.plugins.idea.action.git.CopyImgMarkDownLinkAction"
+            class="org.zongf.plugins.idea.action.git.CopyImgMarkDownLinkAction"
+            text="copy markdown link">
       <!-- 添加到自定义组中-->
       <add-to-group group-id="zongfRightMenu"/>
     </action>

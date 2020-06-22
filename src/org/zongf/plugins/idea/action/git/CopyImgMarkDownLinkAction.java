@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/** 获取git图片地址
+/** 获取图片markdown 引用地址
  * @author: zongf
  * @date: 2020-06-22
  */
-public class CopyGitImageUrlAction extends AnAction {
+public class CopyImgMarkDownLinkAction extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent anActionEvent) {
 
@@ -68,6 +68,7 @@ public class CopyGitImageUrlAction extends AnAction {
     private void showImagePath(List<String> results, String relativePath){
         //results: 9origin  https://github.com/zongf0504/blog-images.git (fetch)]
         //目标: https://raw.githubusercontent.com/zongf0504/blog-images/master/images/mybatis/mybatis-001.png
+        //markdown: ![image](https://raw.githubusercontent.com/zongf0504/blog-images/master/images/mybatis/mybatis-001.png)
 
         String[] array = results.get(0).split("\\s+");
         if (array.length != 3) {
@@ -79,16 +80,18 @@ public class CopyGitImageUrlAction extends AnAction {
             String projectName = split[1];
             String branchName="master";
             StringBuffer imgUrlSb = new StringBuffer();
-            imgUrlSb.append("https://raw.githubusercontent.com")
+            imgUrlSb.append("![image](")
+                    .append("https://raw.githubusercontent.com")
                     .append("/").append(gitUser)
                     .append("/").append(projectName)
                     .append("/").append(branchName)
-                    .append(relativePath);
+                    .append(relativePath)
+                    .append(")");
 
             // 复制到剪切板
             ClipBoardUtil.setStringContent(imgUrlSb.toString());
 
-            Messages.showInfoMessage(imgUrlSb.toString(), "图片地址(已复制)");
+//            Messages.showInfoMessage(imgUrlSb.toString(), "图片地址(已复制)");
         }
     }
 
