@@ -56,7 +56,7 @@ public class CopyGitRemoteUrlAction extends AnAction {
             // 复制到剪切板
             ClipBoardUtil.setStringContent(array[1]);
 
-            Messages.showInfoMessage("已复制:" + array[1], "项目git地址");
+            Messages.showInfoMessage( array[1], "项目git地址(已复制)");
         }
     }
 

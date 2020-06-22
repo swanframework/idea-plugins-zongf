@@ -8,6 +8,7 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.PsiFile;
 import org.apache.commons.lang3.StringUtils;
 import org.zongf.plugins.idea.util.ShellUtil;
+import org.zongf.plugins.idea.util.common.StringUtil;
 import org.zongf.plugins.idea.util.idea.ClipBoardUtil;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class CopyGitImageUrlAction extends AnAction {
         if(psiFile== null || psiFile.isDirectory()) return;
 
         // 如果不是图片则直接返回
-        List<String> imageSuffix = Arrays.asList(".png", "jpg", "jpeg", "gif");
+        List<String> imageSuffix = Arrays.asList("png", "jpg", "jpeg", "gif");
         String fileSuffix = StringUtils.substringAfterLast(psiFile.getName(), ".").toLowerCase();
         if (!imageSuffix.contains(fileSuffix)) {
             Messages.showErrorDialog("不支持的图片类型, 仅支持[" + imageSuffix.toString() + "]", "图片类型错误");
@@ -87,7 +88,7 @@ public class CopyGitImageUrlAction extends AnAction {
             // 复制到剪切板
             ClipBoardUtil.setStringContent(imgUrlSb.toString());
 
-            Messages.showInfoMessage(imgUrlSb.toString(), "图片地址");
+            Messages.showInfoMessage(imgUrlSb.toString(), "图片地址(已复制)");
         }
     }
 
