@@ -80,6 +80,22 @@
       <add-to-group group-id="zongf"/>
     </action>
 
+    <!--************************** 左侧导航目录,右键菜单-第5组 zongf-menu ******************************************** -->
+    <group id="zongfRightMenu" text="zongf-menu" popup="true" >
+      <!-- 添加到项目右键菜单中 -->
+      <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
+    </group>
+
+    <!-- 自定义按钮: 复制引用至剪切板, 使用简单类名 -->
+    <action id="org.zongf.plugins.idea.action.git.CopyGitImageUrlAction"
+            class="org.zongf.plugins.idea.action.git.CopyGitImageUrlAction"
+            text="copy image url">
+      <!-- 添加到自定义组中-->
+      <add-to-group group-id="zongfRightMenu"/>
+    </action>
   </actions>
+
+
+
 
 </idea-plugin>
