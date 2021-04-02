@@ -18,6 +18,8 @@ import com.intellij.psi.ref.AnnotationAttributeChildLink;
 import com.intellij.psi.tree.java.IJavaElementType;
 import org.zongf.plugins.idea.util.MethodCommentUtil;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * @Description:
  * @author: zongf
@@ -38,66 +40,31 @@ public class GenerateApiSortAction extends AnAction {
         }
 
         PsiClass[] classes = ((PsiJavaFile) psiFile).getClasses();
-        PsiElementFactory factory = JavaPsiFacade.getElementFactory(anActionEvent.getProject());
-        for (PsiClass aClass : classes) {
 
-            PsiMethod[] methods = aClass.getMethods();
-
-            int sort = 100;
-            for (PsiMethod method : methods) {
-                PsiAnnotation annotation = method.getAnnotation("io.swagger.annotations.ApiOperationSort");
-
-                AnnotationAttributeChildLink link = new AnnotationAttributeChildLink("value");
-                WriteCommandAction.runWriteCommandAction(annotation.getProject(), () -> {
-//                    addAttribute(annotation, "100", link);
-                    chg(annotation, "100", link);
-                });
-
+        WriteCommandAction.runWriteCommandAction(anActionEvent.getProject(), () -> {
+            for (PsiClass aClass : classes) {
+                final AtomicInteger sort = new AtomicInteger(1);
+                for (PsiMethod method : aClass.getMethods()) {
+                    PsiAnnotation annotation = method.getAnnotation("io.swagger.annotations.ApiOperationSort");
+                    if (annotation != null) {
+                        setAttribute(annotation, "value", sort.getAndIncrement());
+                    }
+                }
             }
-        }
+        });
 
     }
 
-
-    protected static PsiAnnotationMemberValue addAttribute(PsiAnnotation annotation, String valueText, final AnnotationAttributeChildLink link) {
-        final PsiElementFactory factory = JavaPsiFacade.getElementFactory(annotation.getProject());
-        PsiAnnotationMemberValue literal = factory.createExpressionFromText(valueText, null);
-
-        PsiAnnotationMemberValue attr = link.findLinkedChild(annotation);
-        if (attr == null) {
-            literal = (PsiAnnotationMemberValue)link.createChild(annotation).replace(literal);
-        } else if (attr instanceof PsiArrayInitializerMemberValue) {
-            literal = (PsiAnnotationMemberValue) attr.add(literal);
-        } else {
-
-            PsiAnnotationMemberValue arrayInit = factory.createAnnotationFromText("@ApiOperationSort({})", null).findDeclaredAttributeValue(null);
-            arrayInit.add(attr);
-            arrayInit = annotation.setDeclaredAttributeValue(link.getAttributeName(), arrayInit);
-            literal = (PsiAnnotationMemberValue)arrayInit.add(literal);
-        }
-        return literal;
-    }
-
-    public static void chg(PsiAnnotation annotation, String value, final AnnotationAttributeChildLink attributeLink) {
-        PsiAnnotationMemberValue existing = annotation.findAttributeValue("io.swagger.annotations.ApiOperationSort");
-
-        PsiAnnotationSupport support = LanguageAnnotationSupport.INSTANCE.forLanguage(annotation.getLanguage());
-        assert support != null;
-
-
-        PsiLiteral valueElement = (PsiLiteral)JavaPsiFacade.getElementFactory(annotation.getProject()).createExpressionFromText(StringUtil.escapeStringCharacters(value) , (PsiElement)null);
-
-        annotation.setDeclaredAttributeValue("order", valueElement);
-
-        if (attributeLink != null) {
-            annotation.setDeclaredAttributeValue(attributeLink.getAttributeName(), valueElement);
-        } else {
-            if (valueElement != null) {
-                existing.replace(valueElement);
-            } else {
-                final PsiElement parent = existing.getParent();
-                (parent instanceof PsiNameValuePair ? parent : existing).delete();
-            }
-        }
+    /** 新增或更新属性值
+     * @param annotation 注解
+     * @param attributeName 属性名
+     * @param value 值
+     * @author zongf
+     * @date 2021-04-02
+     */
+    public static void setAttribute(PsiAnnotation annotation, String attributeName, Integer value) {
+        PsiLiteral valueElement = (PsiLiteral)JavaPsiFacade.getElementFactory(annotation.getProject())
+                .createExpressionFromText(StringUtil.escapeStringCharacters(String.valueOf(value)) , null);
+        annotation.setDeclaredAttributeValue(attributeName, valueElement);
     }
 }
