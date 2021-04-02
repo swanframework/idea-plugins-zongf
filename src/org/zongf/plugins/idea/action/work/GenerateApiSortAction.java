@@ -5,9 +5,15 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.*;
+import com.intellij.psi.impl.source.PsiMethodImpl;
+import com.intellij.psi.impl.source.tree.java.PsiAnnotationImpl;
+import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.psi.search.PsiShortNamesCache;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -32,18 +38,50 @@ public class GenerateApiSortAction extends AnAction {
 
         PsiClass[] classes = ((PsiJavaFile) psiFile).getClasses();
 
+        String annoName = "io.swagger.annotations.ApiOperationSort";
+
         WriteCommandAction.runWriteCommandAction(anActionEvent.getProject(), () -> {
             for (PsiClass aClass : classes) {
+                // 智能导入依赖
+                addImport(psiFile.getProject(), aClass, StringUtils.substringAfterLast(annoName, "."));
+
                 final AtomicInteger sort = new AtomicInteger(1);
                 for (PsiMethod method : aClass.getMethods()) {
-                    PsiAnnotation annotation = method.getAnnotation("io.swagger.annotations.ApiOperationSort");
-                    if (annotation != null) {
-                        setAttribute(annotation, "value", sort.getAndIncrement());
+
+                    PsiAnnotation annotation = method.getAnnotation(annoName);
+
+                    // 如果没有注解添加注解
+                    if (annotation == null) {
+                        addAnnotation(method, annoName);
+                        annotation = method.getAnnotation(annoName);
                     }
+
+                    setAttribute(annotation, "value", sort.getAndIncrement());
                 }
             }
         });
 
+    }
+
+    private void addImport(Project project, PsiClass psiClass, String simpleClassName) {
+
+        PsiElementFactory psiElementFactory = JavaPsiFacade.getInstance(project).getElementFactory();
+
+        GlobalSearchScope searchScope = GlobalSearchScope.allScope(project);
+
+        PsiClass[] psiClasses = PsiShortNamesCache.getInstance(project).getClassesByName(simpleClassName, searchScope);
+
+        for (PsiClass importCl : psiClasses) {
+            PsiImportStatement importStatement = psiElementFactory.createImportStatement(importCl);
+
+            ((PsiJavaFile) psiClass.getContainingFile()).getImportList().add(importStatement);
+        }
+
+
+    }
+
+    private void addAnnotation(PsiMethod method, String annoName) {
+        method.getModifierList().addAnnotation(annoName);
     }
 
     /** 新增或更新属性值

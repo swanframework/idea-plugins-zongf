@@ -43,7 +43,7 @@
     <!-- 自定义按钮: 生成枚举变量 -->
     <action id="org.zongf.plugins.idea.action.work.GenerateApiSortAction"
             class="org.zongf.plugins.idea.action.work.GenerateApiSortAction"
-            text="Generate Api Sort">
+            text="Sort Api Operation ">
       <!-- 添加到自定义组中-->
       <add-to-group group-id="zongf"/>
     </action>
