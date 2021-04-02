@@ -1,7 +1,5 @@
 package org.zongf.plugins.idea.action.work;
 
-import com.intellij.jam.JamNumberAttributeElement;
-import com.intellij.jam.JamStringAttributeElement;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
@@ -10,13 +8,6 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.*;
-import com.intellij.psi.impl.PsiImplUtil;
-import com.intellij.psi.impl.source.tree.java.PsiAnnotationImpl;
-import com.intellij.psi.impl.source.tree.java.PsiExpressionListImpl;
-import com.intellij.psi.impl.source.tree.java.PsiJavaTokenImpl;
-import com.intellij.psi.ref.AnnotationAttributeChildLink;
-import com.intellij.psi.tree.java.IJavaElementType;
-import org.zongf.plugins.idea.util.MethodCommentUtil;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
