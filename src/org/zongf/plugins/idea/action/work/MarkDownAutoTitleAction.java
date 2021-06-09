@@ -48,7 +48,7 @@ public class MarkDownAutoTitleAction extends AnAction {
     public static String handleLines(String[] lineList) {
 
         // 标题序号正则表达式
-        String titleSeqRegx = "^\\d{1,}(\\.\\d{1,})*$";
+        String titleSeqRegx = "^(\\d{1,}\\.*)+$";
 
         StringBuilder articleSb = new StringBuilder();
 
